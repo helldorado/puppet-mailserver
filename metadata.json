@@ -1,0 +1,23 @@
+{
+  "name": "helldorado-mailserver",
+  "version": "0.1.0",
+  "summary": "Puppet Mail Server deploiement",
+  "author": "Abdoul Bah",
+  "description": "",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib"}
+  ],
+  "types": [],
+  "checksums": {
+    "Modulefile": "a467cc785a5de6f9e833e6231a3f88cc",
+    "README.markdown": "eba6ce6378c3ca92022decb239578a5e",
+    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
+    "manifests/init.pp": "f70218a01db0d3f269075bcc18152a70",
+    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
+    "tests/init.pp": "4d502c30ec4a5caf57c03752f4d67dc6"
+  },
+  "source": "https://github.com/helldorado/puppet-mailserver.git",
+  "project_page": "https://github.com/helldorado/puppet-mailserver.git",
+  "license": "GPL v2"
+}

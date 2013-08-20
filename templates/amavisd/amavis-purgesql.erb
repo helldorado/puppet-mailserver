@@ -1,0 +1,5 @@
+DELETE FROM msgs       WHERE partition_tag = WEEK(DATE_SUB(now(), INTERVAL 300 DAY),3);
+DELETE FROM msgrcpt    WHERE partition_tag = WEEK(DATE_SUB(now(), INTERVAL 300 DAY),3);
+DELETE FROM quarantine WHERE partition_tag = WEEK(DATE_SUB(now(), INTERVAL 90 DAY),3);
+DELETE FROM maddr      WHERE partition_tag = WEEK(DATE_SUB(now(), INTERVAL 300 DAY),3);
+OPTIMIZE TABLE msgs, msgrcpt, maddr;

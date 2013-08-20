@@ -1,0 +1,16 @@
+# Par tonio AT starbridge DOT org. (01-2008)
+#/filename=\"?(.*)\.(bat|chm|cmd|com|do|exe|hta|jse|rm|mov|mp3|avi|wmv|mpg|mpeg|scr|pif|vbe|vbs|vxd|xl)\"?$/	REJECT For security reasons we reject attachments of this type
+#/^\s*Content-(Disposition|Type).*name\s*=\s*"?(.+\.(lnk|asd|hlp|ocx|reg|bat|c[ho]m|cmd|exe|dll|vxd|pif|scr|hta|jse?|sh[mbs]|vb[esx]|ws[fh]|wav|mp3|ra|mov|mpg|mpeg|wmf|wmv|xl))"?\s*$/	REJECT Attachment type not allowed. File "$2" has the unacceptable extension "$3"
+/message\/(partial|external-body)/      REJECT This kind of attachements (message/$1) is rejected.
+
+/(filename|name)="(music*|dhcp*|Emanuel|kmbfejkm|NakedWife|Seicho_no_ie|JAMGCJJA|Happy99|Navidad|prettypark|pretty|data|WTC|wtc|README)\.EXE"/	REJECT Known virus names
+/(filename|name)="(doc|body|file)\.scr"/				REJECT Known for MyDoom	virus names 1
+/(filename|name)="(document|message|body|text|test)\.pif"/		REJECT Known for MyDoom	virus names 2
+/(filename|name)="(document|message|body|text|test)\.zip"/		REJECT Known for MyDoom	virus names 3
+/(filename|name)="account-details\.zip"/		REJECT Known for virus names 54
+/(filename|name)="important-details\.zip"/		REJECT Known for virus names malware 55
+/(filename|name)="password\.zip"/		REJECT Known for virus names 56
+/(filename|name)="new-password\.zip"/		REJECT Known for virus names 57
+/(filename|name)="account-info\.zip"/		REJECT Known for virus names 58
+/(filename|name)="updated-password\.zip"/		REJECT Known for virus names 59
+/(filename|name)="email-details\.zip"/		REJECT Known for virus names 60

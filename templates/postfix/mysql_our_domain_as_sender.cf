@@ -1,0 +1,6 @@
+user = postfix
+password = ****
+hosts = localhost
+dbname = postfix
+query = SELECT 'OK' FROM domain WHERE domain='%d' AND active = '1' AND backupmx NOT LIKE '1'
+

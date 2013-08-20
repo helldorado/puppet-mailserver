@@ -1,0 +1,6 @@
+user = postfix
+password = ****
+hosts = localhost
+dbname = postfix
+query = SELECT access FROM postfix_access WHERE source='%s' AND type = 'sender'
+

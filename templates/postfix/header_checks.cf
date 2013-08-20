@@ -1,0 +1,74 @@
+# Par tonio AT starbridge DOT org. (01-2008)
+#/^content-(type|disposition):.*name*=.*\.(exe|pif|vbs|vcf|cab|pl|bat|BPM|mp3|mpg|mpeg|blk|avi|mov|wmv|html?|dcx|url|eml)/    REJECT We cannot accept your attachment
+/^(Content-Type:.*|\s+)charset\s*=\s*"?(Windows-1251)\?/		REJECT Probably a windows virus.
+/^From:(.*)Screen Saver /i		REJECT Screensaver virus, die.
+/^From:(.*)mchsi.com/							REJECT Stop sending us crap.
+/^From:lpinsk@localnet.com]/						REJECT Stop sending us crap.
+/^From:(.*)[Aa]meritas/i							REJECT Die, spammer, die.
+/opt-in/								REJECT Typical Spammer Word "Opt.."
+/^Received:.*\.{50,}/							REJECT Bogus received address
+/^(Received|Message-Id|X-(Mailer|Sender)):.*\b(AutoMail|E-Broadcaster|Emailer Platinum|eMarksman|Extractor|e-Merge|from stealth[^.]|Global Messenger|GroupMaster|Mailcast|MailKing|Match10|MassE-Mail|massmail\.pl|News Breaker|Powermailer|Quick Shot|Ready Aim Fire|WindoZ|WorldMerge|Yourdora|Lite)\b/	REJECT You're using a mass mailer, therefore you're bounced.
+/^received:.*xxxxxxxxxxxxxxxx/  					REJECT X-Rated Subject Line
+/^Received:(.*)hispeedmailer\.com/					REJECT Mass-mailer.  Die, spammer, die.
+/^From:(.*)cupid\@valentines-ecard\.com/				REJECT Potential Virus Content
+/^Return-Path:(.*)offers@/						REJECT We get too many offers.
+/^Subject:(.*)penis/							REJECT You said the p-word
+#/^Subject:(.*)your password/						REJECT Die, spammer, die.
+/^Subject:(.*)Bigger Bust/i						REJECT X-Rated Subject Line
+/^Subject:(.*)adult/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)AS SEEN ON T\.V/i						REJECT We don't watch TV.
+/^Subject:(.*)barnyard/ 						REJECT No barnyard  please
+/^Subject:(.*)beast/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)bitch/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)bodies/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)breast/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)fuck/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)galore/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)gay/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)porn/							REJECT X-Rated Subject Line
+/^Subject:(.*)slut/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)HARDCORE/i			              			REJECT X-Rated Subject Line
+/^Subject:(.*)teen/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)viagra/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)viaagra/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)viiagra/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)v1agra/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)viagr@/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)v1@gra/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)viag*ra/ 							REJECT No thanks, we've got plenty.
+#/^Subject:(.*)soma/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)levitra/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)ambien/ 							REJECT No thanks, we've got plenty.
+/^Subject:(.*)tramadol/							REJECT No thanks, we've got plenty.
+/^Subject:(.*)phentermine/						REJECT No thanks, we've got plenty.
+/^Subject:(.*)xxx/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)orgasms/ 							REJECT X-Rated Subject Line
+/^Subject:(.*)size does matter/						REJECT X-Rated Subject Line
+/^(To|From|Cc|Reply-To):.*@sexyfun.net/					REJECT X-Rated Subject Line
+/^To:(.*)infomail@recurrent\.com/					REJECT Die, spammer, die.
+/^(To|From|Cc|Reply-To):.*@sunny95.com/					REJECT We don't like radio.
+/^X-Mailer:.*\b(Aristotle|Avalanche|Blaster|Bomber|DejaVu|eMerge|Extractor|UltraMail|Sonic|Floodgate|GeoList|Mach10|MegaPro|Aureate|MultiMailer|Bluecom|Achi-Kochi Mail|Direct Email|Andrew's SuperCool Blastoise|MailerGear|Advanced Mass Sender|SpireMail|MailWorkZ|UltimDBMail|Mabry|Lite)\b/	REJECT No mass-mailers, please.
+/^Subject:(.*)pen[i1]s/							REJECT You said the p-word
+/^Subject:(.*)\bdick\b/							REJECT X-rated spam
+/^(To|From|Cc|Reply-To):.*@sympatico.ca/				REJECT You spammed us, now you're blocked.  Sympatico.ca...
+/^(To|From|Cc|Reply-To):.*@optonline/					REJECT You spammed us, now you're blocked.  Optonline...
+/^(To|From|Cc|Reply-To):.*@sendspeed/					REJECT You spammed us, now you're blocked.  Sendspeed...
+/^(To|From|Cc|Reply-To):.*@pillsavings/					REJECT You spammed us, now you're blocked.  pillsavings...
+/^(To|From|Cc|Reply-To):.*@edirectmessage.com/				REJECT You spammed us, now you're blocked.  edirectmessage...
+/(.*)?\{6,\}/								REJECT Too many ?????
+/(.*)[X|x]\{3,\}/							REJECT Too many Xs
+/^(To|From|Cc|Reply-To):.*@lists.itsahullabaloo-lists.net/		REJECT No more hullabalos, please
+/^(To|From|Cc|Reply-To|Subject):.*Free Cellular Phone/			REJECT We already have cell phones.
+/^(From|mailto):.*@sina.com/						REJECT sina.com spammed us, now you're out.
+/^(From|mailto):.*@bomx1.com/						REJECT bomx1.com spammed us, now you're out.
+/^(From|mailto):.*@pornopassprt.com/					REJECT no porn mail, please.
+/^Subject:(.*)[Ss]ildenalfil/i						REJECT You meant the v-word.
+/^Subject:(.*)[Cc]itrate/i						REJECT You meant the v-word.
+#/^Subject:(.*)[Cc]ialis/i						REJECT c_ialis
+/^Subject:(.*)[Ee]nzyte/i						REJECT e_nzyte 
+#/^Content\-Transfer\-Encoding:(.*)base64$/				REJECT (base_64)
+/^Subject:(.*)Your Account is Suspended For Security Reasons/		REJECT Virus Subject Line
+/^Subject:(.*)Warning Message: Your services near to be closed/	REJECT Virus Subject Line
+/^Subject:(.*)[Yy]our password has been successfully updated/		REJECT Possible Virus
+/^Subject:(.*)You have successfully updated your password/	REJECT Possible Virus
+/^Subject:(.*)Members Support/					REJECT Possible Virus

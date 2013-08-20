@@ -1,0 +1,585 @@
+# Par tonio AT starbridge DOT org. (01-2008)
+#/(filename|name)=".*\.(vcf|cab|pl|bat|BPM|mp3|mpg|mpeg|exe|blk|mdb|pdf|gif|jpg|tiff?|png|avi|mov|wmv|txt|rtf|html?|doc|xls|ppt|dcx|url|eml)"$/		OK
+/^ {6,11}[[:digit:]]{1,6}[ km] /    OK
+
+# Don't check every line in an attachment 
+/^[0-9a-z+\/=]{60,}\s*$/						OK
+#/(filename|name)=".*\..*"$/						REJECT No files of type $1 allowed here.
+/(filename|name)="(music*|dhcp*|Emanuel|kmbfejkm|NakedWife|Seicho_no_ie|JAMGCJJA|Happy99|Navidad|prettypark|pretty|data|WTC|wtc|README)\.EXE"/	REJECT Known virus names
+/(filename|name)="(doc|body|file)\.scr"/				REJECT Known for MyDoom	virus names 1
+/(filename|name)="(document|message|body|text|test)\.pif"/		REJECT Known for MyDoom	virus names 2
+/(filename|name)="(document|message|body|text|test)\.zip"/		REJECT Known for MyDoom	virus names 3
+/(filename|name)="account-details\.zip"/		REJECT Known for virus names 54
+/(filename|name)="important-details\.zip"/		REJECT Known for virus names malware 55
+/(filename|name)="password\.zip"/		REJECT Known for virus names 56
+/(filename|name)="new-password\.zip"/		REJECT Known for virus names 57
+/(filename|name)="account-info\.zip"/		REJECT Known for virus names 58
+/(filename|name)="updated-password\.zip"/		REJECT Known for virus names 59
+/(filename|name)="email-details\.zip"/		REJECT Known for virus names 60
+/important information regarding your email address/			REJECT Possible W32_Mlmaill@MM
+/Your Account is Suspended For Security Reasons/	REJECT Possible Virus
+/Warning Message: Your services near to be closed/	REJECT Possible Virus
+/[Yy]our password has been successfully updated/	REJECT Possible Virus
+/You have successfully updated your password/	REJECT Possible Virus
+/Members Support/	REJECT Possible Virus
+/Manpower Antivirus - www.manpower.ro/	REJECT Possible Virus
+
+/mailto:.*\@.*\?subject\=(3D)*(remove|removeme|pleasedelete|pleaseremove|deleteme)+/ REJECT Lets just say we're removing now.
+/Viagra/								REJECT Error number 000001.
+/Viagrra/								REJECT Error number 000002.
+/Viagr@/								REJECT Error number 000003.
+/V1agra/								REJECT Error number 000004.
+/V\*I\*A\*G\*R\*A/							REJECT Error number 000005.
+/V:I:A:G:R:A/								REJECT Error number 000006.
+/Xanax/									REJECT Error number 000007.
+/Valium/								REJECT Error number 000008.
+/Levitra/								REJECT Error number 000009.
+/Valtrex/								REJECT Error number 000010.
+/Vioxx/									REJECT Error number 000011.
+#/Soma/									REJECT Error number 000012.
+/Tramadol/								REJECT Error number 000013.
+/Phentermine/								REJECT Error number 000014.
+#/ambien/								REJECT Error number 000015.
+/Vicodin/								REJECT Error number 000016.
+/ejaculation/								REJECT Error number 000017.
+/lizdavisliz/								REJECT Error number 000018.
+/climax/								REJECT Error number 000019.
+/sperm/i									REJECT Error number 000020.
+/s\.perm/								REJECT Error number 000021.
+/sper\.m/								REJECT Error number 000022.
+#/porn/									REJECT Error number 000023.
+#/homosexuality/								REJECT Error number 000024.
+/length and girth/							REJECT Error number 000025.
+/confidence and size/							REJECT Error number 000026.
+/100% money back/							REJECT Error number 000027.
+/life changing product/							REJECT Error number 000028.
+/Why-Not-Try/								REJECT Error number 000029.
+/Stop Mailings Here/							REJECT Error number 000030.
+/QuickPros/								REJECT Error number 000031.
+/sildenalfil/								REJECT Error number 000032.
+/citrate/								REJECT Error number 000033.
+#/Des Voeux/								REJECT Error number 000034.
+/bhzlmzjlrldex/								REJECT Error number 000035.
+/klevitovrenstarrybalko1817/						REJECT Error number 000036.
+/Get your University Diploma/						REJECT Error number 000037.
+/message will only be sent once/ 					REJECT Error number 000038.
+/Penis/ 								REJECT Error number 000039.
+/diet pill/								REJECT Error number 000040.
+/receiving this e[-]*mail because you opted[-\ ]in/ 			REJECT Error number 000041.
+/seymorenudez\.com/							REJECT Error number 000042.
+/there are no federal regulations or laws on (email|e-mail) advertising/ REJECT Error number 000043.
+/Under Bill s.1618/ 							REJECT Error number 000044..
+/(usa\.net|hotmail\.com|yahoo\.com)\?subject=remove/			REJECT Error number 000045.
+/voted sex[-\ ]server on the web/ 					REJECT Error number 000046.
+/while working from the privacy of your own home/ 			REJECT Error number 000047.
+/Save your soul/				 			REJECT Error number 000048.
+/LEGALLY ORDAINED MINISTER /			 			REJECT Error number 000049.
+/remove my negative credit/			 			REJECT Error number 000050. 
+/ADULT CONTENT/								REJECT Error number 000051. 
+/all removal requests are (honored|honoured)/ 				REJECT Error number 000052.
+/Amateur Girls/								REJECT Error number 000053.
+/free[ ]sex/								REJECT Error number 000054.
+/sexual/								REJECT Error number 000055.
+#/[Rr]ussian/								REJECT Error number 000056.
+/compliance with the current federal legislation/ 			REJECT Error number 000057.
+/comply with proposed federal legislation/ 				REJECT Error number 000058.
+/home[-\ ]based income opportunity/ 					REJECT Error number 000059.
+#/optout/ 								REJECT Error number 000060.
+/opted[-in]/ 								REJECT Error number 000061.
+/V-I-A-G-R-A/ 								REJECT Error number 000062.
+/Show me the lowest (rate|rates)/ 					REJECT Error number 000063.
+/Cialis/i							REJECT Error number 000064.
+/via\.gra/ 								REJECT Error number 000065.
+/fuckeer/ 								REJECT Error number 000066.
+/enlargement (pill|pills)/ 						REJECT Error number 000067.
+/VP-RX/ 								REJECT Error number 000068.
+/Vïàgrå/ 						REJECT Error number 000069.
+/Vïcódïn/ 						REJECT Error number 000070.
+/Vãlïûm/ 						REJECT Error number 000071.
+/Xánåx/ 							REJECT Error number 000072.
+/wrinkle reduction/ 							REJECT Error number 000073.
+#/som@/ 									REJECT Error number 000074.
+/v1@gra/ 								REJECT Error number 000075.
+/v:a:lium/ 								REJECT Error number 000076.
+/xan@x/ 								REJECT Error number 000077.
+#/agra/ 									REJECT Error number 000078.
+# \.com start here
+/lc\.squarepath\.com/							REJECT Error number 100001.
+/cisetefuts\.com/							REJECT Error number 100002.
+/tropicpharmacy\.com/							REJECT Error number 100003.
+/promise44\.com/							REJECT Error number 100004.
+/ewpir5\.com/								REJECT Error number 100005.
+/casino-money\.com/							REJECT Error number 100006.
+/greatestsalesoffer\.com/						REJECT Error number 100007.
+/wbegeds\.com/								REJECT Error number 100008.
+/StopAllThatSpam\.com/							REJECT Error number 100009.
+/540000x\.com/								REJECT Error number 100010.
+/550000x\.com/								REJECT Error number 100011.
+/560000x\.com/								REJECT Error number 100012.
+/610000x\.com/								REJECT Error number 100013.
+/trymetodey\.com/							REJECT Error number 100014.
+/cdatlow\.com/								REJECT Error number 100015.
+/imatchup\.com/								REJECT Error number 100016.
+/qualityrrtt\.com/							REJECT Error number 100017.
+/4-ui\.com/								REJECT Error number 100018.
+/hwy55z\.com/								REJECT Error number 100019.
+/strong45\.com/								REJECT Error number 100020.
+/erd55x\.com/ 								REJECT Error number 100021.
+/enquires89\.com/							REJECT Error number 100022.
+/medsgh5\.com/								REJECT Error number 100023.
+/dealsofyourlife\.com/							REJECT Error number 100024.
+/YourCashNetwork\.com/							REJECT Error number 100025.
+/ppmdating\.com/							REJECT Error number 100026.
+/cross5f\.com/								REJECT Error number 100027.
+/playitbig\.com/							REJECT Error number 100028.
+/czlnc\.com/								REJECT Error number 100029.
+/e-i1\.com/								REJECT Error number 100030.
+/YourWarrantySource\.com/						REJECT Error number 100031.
+/ExtendYourWarranty\.com/						REJECT Error number 100032.
+/ExtendWarrantyCenter\.com/						REJECT Error number 100033.
+/mymortgagehelper\.com/							REJECT Error number 100034.
+/grouping\.com/								REJECT Error number 100035.
+/happpynewyearz\.com/							REJECT Error number 100036.
+/countupandlookaway\.com/						REJECT Error number 100037.
+/e-hostzz\.com/								REJECT Error number 100038.
+/happynewyaer\.com/							REJECT Error number 100039.
+/hostthisman\.com/							REJECT Error number 100040.
+/torispeller\.com/							REJECT Error number 100041.
+/msvpk\.com/								REJECT Error number 100042.
+/holdontrywow\.com/							REJECT Error number 100043.
+/holdontrywow/								REJECT Error number 100044.
+/neodrugs\.com/								REJECT Error number 100045.
+/bargaintimes\.com/							REJECT Error number 100046.
+/webrx-doctor\.com/							REJECT Error number 100047.
+/like00\.com/								REJECT Error number 100048.
+/ddd77\.com/								REJECT Error number 100049.
+/jackpotfactory\.com/							REJECT Error number 100050.
+/financialcertificates\.com/						REJECT Error number 100051.
+/wildjack\.com/								REJECT Error number 100052.
+/pcdi-homestudy\.com/							REJECT Error number 100053.
+/fultondirect\.com/							REJECT Error number 100054.
+/qulycfug\.com/								REJECT Error number 100055.
+/meetsalz\.com/								REJECT Error number 100056.
+/imgehost\.com/								REJECT Error number 100057.
+/onlinstorz\.com/							REJECT Error number 100058.
+/sucezzel\.com/								REJECT Error number 100059.
+/mypillsource\.com/							REJECT Error number 100060.
+/Swansea\.com/								REJECT Error number 100061.
+/purchze3\.com/								REJECT Error number 100062.
+/tibetmeds\.com/							REJECT Error number 100063.
+/cc\.com/								REJECT Error number 100064.
+/ticketmaster\.com/							REJECT Error number 100065.
+/partnerprorgamz\.com/							REJECT Error number 100066.
+/theonlyrealstuff\.com/							REJECT Error number 100067.
+/ballistic\.com/							REJECT Error number 100068.
+/4rpharms\.com/								REJECT Error number 100069.
+/meds434\.com/								REJECT Error number 100070.
+/mmstong5f\.com/							REJECT Error number 100071.
+/558health\.com/							REJECT Error number 100072.
+/hg4health\.com/							REJECT Error number 100073.
+/dynpharms\.com/							REJECT Error number 100074.
+/sabletimesaround\.com/							REJECT Error number 100075.
+/payserve\.com/								REJECT Error number 100076.
+/paralyze\.com/								REJECT Error number 100077.
+/allsweethearts\.com/							REJECT Error number 100078.
+/liberate\.com/								REJECT Error number 100079.
+/inflatable\.com/							REJECT Error number 100080.
+/bestcartad\.com/							REJECT Error number 100081.
+/fasttocart\.com/							REJECT Error number 100082.
+/bodrfsse\.com/								REJECT Error number 100083.
+/weedd3e\.com/								REJECT Error number 100084.
+/unified\.com/								REJECT Error number 100085.
+/plus66\.com/								REJECT Error number 100086.
+/comecitnow\.com/							REJECT Error number 100087.
+/deducing\.com/								REJECT Error number 100088.
+/practizze\.com/							REJECT Error number 100089.
+/cogistzp\.com/								REJECT Error number 100090.
+/mozziic\.com/								REJECT Error number 100091.
+/Surveyregister\.com/							REJECT Error number 100092.
+/e-mails1\.com/								REJECT Error number 100093.
+/online-rates\.com/							REJECT Error number 100094.
+/tvaproductions\.com/							REJECT Error number 100095.
+/india\.com/								REJECT Error number 100096.
+/tabletok\.com/								REJECT Error number 100097.
+/discreetwebmd\.com/							REJECT Error number 100098.
+/gowebrx\.com/								REJECT Error number 100099.
+/trwxvhhfsmodiov\.com/							REJECT Error number 100100.
+/simplycheapstuff\.com/							REJECT Error number 100101.
+/whynottosave\.com/							REJECT Error number 100102.
+/yourdeals43\.com/							REJECT Error number 100103.
+/imagesbyaz\.com/							REJECT Error number 100104.
+/phonezz5\.com/								REJECT Error number 100105.
+/poeunsec\.com/								REJECT Error number 100106.
+/richdd\.com/								REJECT Error number 100107.
+/posutionddc\.com/							REJECT Error number 100108.
+/saetritu\.com/								REJECT Error number 100109.
+/kmodqsjp\.com/								REJECT Error number 100110.
+/baare\.com/								REJECT Error number 100111.
+/allmedicalpills\.com/							REJECT Error number 100112.
+/whatisallthefussabout\.com/						REJECT Error number 100113.
+/judfexts\.com/								REJECT Error number 100114.
+/casdetut\.com/								REJECT Error number 100115.
+/creatorr\.com/								REJECT Error number 100116.
+/natercil\.com/								REJECT Error number 100117.
+/didmeds\.com/								REJECT Error number 100118.
+/paceuvit\.com/								REJECT Error number 100119.
+/largeinfo\.com/							REJECT Error number 100120.
+/netstarsite\.com/							REJECT Error number 100121.
+/ncodvi\.com/								REJECT Error number 100122.
+/optmailsystem\.com/							REJECT Error number 100123.
+/systemoptmail\.com/							REJECT Error number 100124.
+/sothingf\.com/								REJECT Error number 100125.
+/rrtfvf\.com/								REJECT Error number 100126.
+/incluudes\.com/							REJECT Error number 100127.
+/roguish\.com/								REJECT Error number 100128.
+/softhere\.com/								REJECT Error number 100129.
+/cleetusolocastel\.com/							REJECT Error number 100130.
+/smart-buy-2004\.com/							REJECT Error number 100131.
+/datouthu\.com/								REJECT Error number 100132.
+/dancerdde\.com/							REJECT Error number 100133.
+/gusdkd\.com/								REJECT Error number 100134.
+/wexmanton\.com/							REJECT Error number 100135.
+/vbrt56t\.com/								REJECT Error number 100136.
+/denomyyu\.com/								REJECT Error number 100137.
+/purr6rto\.com/								REJECT Error number 100138.
+/coolpicsandmore\.com/							REJECT Error number 100139.
+/butetoit\.com/								REJECT Error number 100140.
+/bornya\.com/								REJECT Error number 100141.
+/moneysaivings04\.com/							REJECT Error number 100142.
+/pharm233\.com/								REJECT Error number 100143.
+/friutgg\.com/								REJECT Error number 100144.
+/computrrr\.com/							REJECT Error number 100145.
+/tinnnoon\.com/								REJECT Error number 100146.
+/cedcdd\.com/								REJECT Error number 100147.
+/high6f\.com/								REJECT Error number 100148.
+/global-goldcard\.com/							REJECT Error number 100149.
+/popggg\.com/								REJECT Error number 100150.
+/coiffure\.com/								REJECT Error number 100151.
+/doughnut\.com/								REJECT Error number 100152.
+/carolinian\.com/							REJECT Error number 100153.
+/usefushop\.com/							REJECT Error number 100154.
+/dgpentities\.com/							REJECT Error number 100155.
+/724med\.com/								REJECT Error number 100156.
+/pharmmer5\.com/							REJECT Error number 100157.
+/turboshopnet\.com/							REJECT Error number 100158.
+/registeredbuyer\.com/							REJECT Error number 100159.
+/talkinghouse\.com/							REJECT Error number 100160.
+/WINDOWISH\.com/							REJECT Error number 100161.
+/looknforlove\.com/							REJECT Error number 100162.
+/brandnewgreatsites\.com/						REJECT Error number 100163.
+/regfastrouter\.com/							REJECT Error number 100164.
+/nitefurdet\.com/							REJECT Error number 100165.
+/goodzz\.com/								REJECT Error number 100166.
+/countrr\.com/								REJECT Error number 100167.
+/bamdberc\.com/								REJECT Error number 100168.
+/erdcf\.com/								REJECT Error number 100169.
+/richemmdsz\.com/							REJECT Error number 100170.
+/lookingforagooddate\.com/						REJECT Error number 100171.
+/surpriseyourlover\.com/						REJECT Error number 100172.
+/surpriseyourlover/							REJECT Error number 100173.
+/needtodateaperson\.com/						REJECT Error number 100174.
+/starttheyearover\.com/							REJECT Error number 100175.
+/shophostforyou\.com/							REJECT Error number 100176.
+/buyandsaveyourmoney\.com/						REJECT Error number 100177.
+/aim\.com/								REJECT Error number 100178.
+/notleavinghomebuyers\.com/						REJECT Error number 100179.
+/productshunters\.com/							REJECT Error number 100180.
+/roistats\.com/								REJECT Error number 100181.
+/erc4v\.com/								REJECT Error number 100182.
+/Stop3The6Spam9Already\.com/						REJECT Error number 100183.
+/niuzsw\.com/								REJECT Error number 100184.
+/seeitnowhere\.com/							REJECT Error number 100185.
+/copmprtte\.com/							REJECT Error number 100186.
+/ahottieiswhatiwant\.com/						REJECT Error number 100187.
+/kiopexctu\.com/							REJECT Error number 100188.
+/markityourself\.com/							REJECT Error number 100189.
+/appuyezw\.com/								REJECT Error number 100190.
+/surbvia\.com/								REJECT Error number 100191.
+/cochingd\.com/								REJECT Error number 100192.
+/boulrrd\.com/								REJECT Error number 100193.
+/wellahost\.com/							REJECT Error number 100194.
+/effectivedoctor\.com/							REJECT Error number 100195.
+/effectiveherbs\.com/							REJECT Error number 100196.
+/dealinr\.com/								REJECT Error number 100197.
+/highproductslowprice\.com/						REJECT Error number 100198.
+/masterofshops\.com/							REJECT Error number 100199.
+/deerswitchs\.com/							REJECT Error number 100200.
+/mitopeght\.com/							REJECT Error number 100201.
+/checkproductsonline\.com/						REJECT Error number 100202.
+/onlinemanufacturer\.com/						REJECT Error number 100203.
+/66hydroprosters\.com/							REJECT Error number 100204.
+/du5\.com/								REJECT Error number 100205.
+/gz5\.com/								REJECT Error number 100206.
+/geocities\.com/							REJECT Error number 100207.
+/34ex4\.com/								REJECT Error number 100208.
+/cutout67\.com/								REJECT Error number 100209.
+/atlast7\.com/								REJECT Error number 100210.
+/learn44\.com/								REJECT Error number 100211.
+/easy5544\.com/								REJECT Error number 100212.
+/lexrtrt\.com/								REJECT Error number 100213.
+/alphaanswers\.com/							REJECT Error number 100214.
+/onecleansweep\.com/							REJECT Error number 100215.
+/additionalsolutions\.com/						REJECT Error number 100216.
+/ttyedds0\.com/								REJECT Error number 100217.
+/mthgsasxz\.com/							REJECT Error number 100218.
+/pillsavings5\.com/							REJECT Error number 100219.
+/instantaccess4u\.com/							REJECT Error number 100220.
+/lnk.omx1\.com/								REJECT Error number 100221.
+/cap32\.com/								REJECT Error number 100222.
+/mycompclub\.com/							REJECT Error number 100223.
+/ezonlinepharm\.com/							REJECT Error number 100224.
+/driveway\.com/								REJECT Error number 100225.
+/boxsalz\.com/								REJECT Error number 100226.
+/proplzz\.com/								REJECT Error number 100227.
+/steelpharm64v\.com/							REJECT Error number 100228.
+/SPECIALS34\.com/							REJECT Error number 100229.
+/easymed9\.com/								REJECT Error number 100230.
+/zettanetwork\.com/							REJECT Error number 100231.
+/gardenslz\.com/							REJECT Error number 100232.
+/creatreconn\.com/							REJECT Error number 100233.
+/mensgoodhealth\.com/							REJECT Error number 100234.
+/entertainment-email\.com/						REJECT Error number 100235.
+/getwebrx\.com/								REJECT Error number 100236.
+/nepzzz\.com/								REJECT Error number 100237.
+/rr55x\.com/								REJECT Error number 100238.
+/default656g\.com/							REJECT Error number 100239.
+/yu78rgx\.com/								REJECT Error number 100240.
+/e-klk\.com/								REJECT Error number 100241.
+/Donotwantmail\.com/							REJECT Error number 100242.
+/timezsquarepatry\.com/							REJECT Error number 100243.
+/ez-123hosting\.com/							REJECT Error number 100244.
+/2005hosting\.com/							REJECT Error number 100245.
+/3001hosting\.com/							REJECT Error number 100246.
+/3002hosting\.com/							REJECT Error number 100247.
+/3003hosting\.com/							REJECT Error number 100248.
+/ggabnd\.com/								REJECT Error number 100249.
+/securemedpills\.com/							REJECT Error number 100250.
+/placenta\.com/								REJECT Error number 100251.
+/diggingrf\.com/							REJECT Error number 100252.
+/swedfcd\.com/								REJECT Error number 100253.
+/xde4cds.com/								REJECT Error number 100254.
+/saving-first\.com/							REJECT Error number 100255.
+/yourbestrx\.com/							REJECT Error number 100256.
+/antiquesworld\.com/							REJECT Error number 100257.
+/wghiissper\.com/							REJECT Error number 100258.
+/roninnz\.com/								REJECT Error number 100259.
+/oneminhealth\.com/							REJECT Error number 100260.
+/jykmf\.com/								REJECT Error number 100261.
+/bpck\.com/								REJECT Error number 100262.
+/topendmarket\.com/							REJECT Error number 100263.
+/thingsremembered\.com/							REJECT Error number 100264.
+/fastweb\.com/								REJECT Error number 100265.
+/policeds\.com/								REJECT Error number 100266.
+/foreveryourhost\.com/							REJECT Error number 100267.
+/thetrainwilltakeyouhome\.com/						REJECT Error number 100268.
+/vipchoose\.com/							REJECT Error number 100269.
+/uptordfty\.com/							REJECT Error number 100270.
+/matequest\.com/							REJECT Error number 100271.
+/lotsoffishinthesea\.com/						REJECT Error number 100272.
+/whereisthetopofit\.com/						REJECT Error number 100273.
+/asw3s\.com/								REJECT Error number 100274.
+/kkuuddiedc\.com/							REJECT Error number 100275.
+/enpharmes\.com/							REJECT Error number 100276.
+/awarddc\.com/								REJECT Error number 100277.
+/ccbbporfg\.com/							REJECT Error number 100278.
+/topratedmeds\.com/							REJECT Error number 100279.
+/pleazerzoneprod\.com/							REJECT Error number 100280.
+/24products\.com/							REJECT Error number 100281.
+/vow-meds\.com/								REJECT Error number 100282.
+/Woodward\.com/								REJECT Error number 100283.
+/medse3w\.com/								REJECT Error number 100284.
+/cheapcailis\.com/							REJECT Error number 100285.
+/whatdididowithmycoat\.com/						REJECT Error number 100286.
+/3minquote\.com/							REJECT Error number 100287.
+/qwe4meds\.com/								REJECT Error number 100288.
+/expertsavers\.com/							REJECT Error number 100289.
+/advancegox\.com/							REJECT Error number 100290.
+# \.us start from here
+/chooz\.us/								REJECT Error number 200001.
+/geas\.us/								REJECT Error number 200002.
+/iggie\.us/								REJECT Error number 200003.
+/gtrrrez\.us/								REJECT Error number 200004.
+/self-for-life\.us/							REJECT Error number 200005.
+/set-for-life\.us/							REJECT Error number 200006.
+/craigz\.us/								REJECT Error number 200007.
+/cleaxs\.us/								REJECT Error number 200008.
+/wpzza\.us/								REJECT Error number 200009.
+/rty22\.us/								REJECT Error number 200010.
+/tooshortz\.us/								REJECT Error number 200011.
+/hgjkl\.us/								REJECT Error number 200012.
+/turpsz\.us/								REJECT Error number 200013.
+/hortu\.us/								REJECT Error number 200014.
+/hardtyz\.us/								REJECT Error number 200015.
+/jonnyz\.us/								REJECT Error number 200016.
+/oacklaz\.us/								REJECT Error number 200017.
+# \.org start from here
+/automarketing\.org/							REJECT Error number 250001.
+# IP address start from here
+/61.56.84.218/								REJECT Error number 300001.
+/81.180.103.45/								REJECT Error number 300002.
+/211.22.31.227/								REJECT Error number 300003.
+/211.158.7.146/								REJECT Error number 300004.
+/211.63.130.181/							REJECT Error number 300005.
+/211.162.108.119/							REJECT Error number 300006.
+/203.197.204.75/							REJECT Error number 300007.
+/197.204.75/								REJECT Error number 300008.
+/202.99.212.187/							REJECT Error number 300009.
+/200.164.128.204/							REJECT Error number 300010.
+/200.164.144.190/							REJECT Error number 300011.
+/209.66.76.34/								REJECT Error number 300012.
+/219.133.31.165/							REJECT Error number 300013.
+/61.56.84.220/								REJECT Error number 300014.
+# \.info start from here
+/medss247\.info/							REJECT Error number 400001.
+/medss247/								REJECT Error number 400002.
+/hgee1\.info/								REJECT Error number 400003.
+/psjned\.info/								REJECT Error number 400004.
+/jinhai\.info/								REJECT Error number 400005.
+/oemrate\.info/								REJECT Error number 400006.
+/oemcd\.info/								REJECT Error number 400007.
+/nidueh\.info/								REJECT Error number 400008.
+/12hen\.info/								REJECT Error number 400009.
+/yourvacations\.info/							REJECT Error number 400010.
+/tupit\.info/								REJECT Error number 400011.
+/quickz\.info/								REJECT Error number 400012.
+/clownz\.info/								REJECT Error number 400013.
+/babz\.info/								REJECT Error number 400014.
+/optinspecialists\.info/						REJECT error number 400015.
+/chapsoft\.info/							REJECT error number 400016.
+/woiejf\.info/								REJECT error number 400017.
+/fsj03\.info/								REJECT error number 400018.
+/djenis\.info/								REJECT error number 400019.
+/ch%65apsoft\.info/							REJECT error number 400019.
+# \.net start from here
+/2xs\.net/								REJECT Error number 500001.
+/speedera\.net/								REJECT Error number 500002.
+/conductive\.net/							REJECT Error number 500003.
+/horseshow\.net/							REJECT Error number 500004.
+/mails1\.net/								REJECT Error number 500005.
+/530000x\.net/								REJECT Error number 500006.
+/rxprovider\.net/							REJECT Error number 500007.
+/zednet\.net/ 								REJECT Error number 500008.
+/refillguide\.net/							REJECT Error number 500009.
+/intelliquote\.net/							REJECT Error number 500010.
+/morrisdirect\.net/							REJECT Error number 500011.
+/thebettermail\.net/							REJECT Error number 500012.
+/thebettermail/								REJECT Error number 500013.
+/dietreminder\.net/							REJECT Error number 500014.
+/east\.net/								REJECT Error number 500015.
+/whitedoctor\.net/							REJECT Error number 500016.
+/digitalknowhow\.net/							REJECT Error number 500017.
+/deluxedeals\.net/							REJECT Error number 500018.
+/e-hostzz\.net/								REJECT Error number 500019.
+/bargainoftheday\.net/							REJECT Error number 500020.
+/returnpath\.net/							REJECT Error number 500021.
+/mailbx\.net/								REJECT Error number 500022.
+/sorter\.net/								REJECT Error number 500023.
+# \.biz start from here
+/jampe\.biz/								REJECT Error number 600001.
+/gomedz\.biz/								REJECT Error number 600002.
+/911pharma\.biz/							REJECT Error number 600003.
+/rxperfectmeds\.biz/							REJECT Error number 600004.
+/sftwareplus\.biz/ 							REJECT Error number 600005.
+/rebas\.biz/ 								REJECT Error number 600006.
+/cokjz\.biz/ 								REJECT Error number 600007.
+/cokjz/ 								REJECT Error number 600008.
+/gritz\.biz/ 								REJECT Error number 600009.
+/affordablemeds\.biz/							REJECT Error number 600010.
+/all-oem\.biz/								REJECT Error number 600011.
+/bstsoftware\.biz/							REJECT Error number 600012.
+/canadiansandfrenchs\.biz/						REJECT Error number 600013.
+/blacksstarspc\.biz/							REJECT Error number 600014.
+/quickpro\.biz/								REJECT Error number 600015.
+/vpachka\.biz/								REJECT Error number 600016.
+/buy-soft\.biz/								REJECT Error number 600017.
+/whiop\.biz/								REJECT Error number 600018.
+/wowsers\.biz/								REJECT Error number 600019.
+/host2\.biz/								REJECT Error number 600020.
+/eosadsjsfjb\.biz/							REJECT Error number 600021.
+/paygear\.biz/								REJECT Error number 600022.
+/hockmarter\.biz/							REJECT Error number 600023.
+/member-services-a\.biz/						REJECT Error number 600024.
+/101host\.biz/								REJECT Error number 600025.
+/wwwbargins\.biz/							REJECT Error number 600026.
+/killersoft\.biz/							REJECT Error number 600027.
+/xplatinum\.biz/							REJECT Error number 600028.
+/greatdealztoday\.biz/							REJECT Error number 600029.
+/techelitedrug\.biz/							REJECT Error number 600030.
+/valuepointmeds\.biz/							REJECT Error number 600031.
+/medz4less\.biz/							REJECT Error number 600032.
+/bestoffersanddealz\.biz/						REJECT Error number 600033.
+/qweasd\.biz/								REJECT Error number 600034.
+/itisoptin\.biz/							REJECT Error number 600035.
+/ebestquotes\.biz/							REJECT Error number 600036.
+/yuihjk\.biz/								REJECT Error number 600037.
+/lobzy\.biz/								REJECT Error number 600038.
+/areax\.biz/								REJECT Error number 600039.
+/newestthings\.biz/							REJECT Error number 600040.
+/softforyou\.biz/							REJECT Error number 600041.
+/opt-u1\.biz/								REJECT Error number 600042.
+/certiqte\.biz/								REJECT Error number 600043.
+/sftwre\.biz/								REJECT Error number 600044.
+/swfr\.biz/								REJECT Error number 600045.
+/eddwz\.biz/								REJECT Error number 600046.
+/realforalldrugs\.biz/							REJECT Error number 600047.
+/undergroundsecrets\.biz/						REJECT Error number 600048.
+/pharmacourt\.biz/							REJECT Error number 600049.
+/mamix\.biz/								REJECT Error number 600050.
+/sale-oem\.biz/								REJECT Error number 600051.
+/comprame\.biz/ 							REJECT Error number 600052.
+/rtyfgh\.biz/ 								REJECT Error number 600053.
+/hfg3\.biz/								REJECT Error number 600054.
+/klegs\.biz/								REJECT Error number 600055.
+/finhelp\.biz/								REJECT Error number 600056.
+/wepimpgirls\.biz/							REJECT Error number 600057.
+/shoppingbasket\.biz/							REJECT Error number 600058.
+/hobbiesonline\.biz/							REJECT Error number 600059.
+/pills4you\.biz/							REJECT Error number 600060.
+/fragrancefinder\.biz/							REJECT Error number 600061.
+/cosmetichouse\.biz/							REJECT Error number 600062.
+/preferredrx\.biz/							REJECT Error number 600063.
+/getsoftnow\.biz/							REJECT Error number 600064.
+/zerosecond\.biz/							REJECT Error number 600065.
+/genericforless\.biz/							REJECT Error number 600066.
+/bestautodealz\.biz/							REJECT Error number 600067.
+/hereagain\.biz/							REJECT Error number 600068.
+/coolpress\.biz/							REJECT Error number 600069.
+/preferredmeds\.biz/							REJECT Error number 600070.
+/pretax\.biz/								REJECT Error number 600071.
+/leadgood\.biz/								REJECT Error number 600072.
+/quick-mortgage-quote\.biz/						REJECT Error number 600073.
+/savingsnow\.biz/							REJECT Error number 600074.
+/knowwhat\.biz/								REJECT Error number 600075.
+/allo-x\.net/							REJECT Error number 600076.
+# Phone number start from here
+/1-646-514-6006/							REJECT Error number 700001.
+/1-646-304-8070/							REJECT Error number 700002.
+/1-212-208-4551/							REJECT Error number 700003.
+/1-206-984-2641/							REJECT Error number 700004.
+/1-800-222-2331/							REJECT Error number 700005.
+/(095)795*4782/								REJECT Error number 700006.
+###/*095*795-4-782/							REJECT Error number 700007.
+/1-800-274-7367/							REJECT Error number 700008.
+# Misc different place
+/active\.ws/								REJECT Error number 800001.
+/rec\.br/								REJECT Error number 800002.
+/net-click.net\.ph/							REJECT Error number 800003.
+#/centrum\.cz/								REJECT Error number 800004.
+/terra\.es/	 							REJECT Error number 800005.
+###/terra\.es/personal5/bolik36/smil.gif/					REJECT Error number 800006.
+# Email start from here
+/info@emailpromo\.biz/							REJECT Error number 900001.
+/kufor40@lawyer\.com/							REJECT Error number 900002.
+
+# Recently added by Jeff
+#/8[Bb][Ii][Tt]/								REJECT Error number 900003. (8_bit)
+#/#FFFFFF/								REJECT Error number 900004.
+/rateclick\.net/							REJECT Error number 900005.
+#/\&[Ee]circ;/i								REJECT Error number 900006.
+/\&[Aa]tilde;/								REJECT Error number 900007.
+#/img src="http:/							REJECT Error number 900008. 
+/dynsrc/	REJECT No auto-loaders, please.
+#/javascript/	REJECT java_script in email means spam.
+/gigas-x\.fr/   REJECT spam
+/zizix\.net/    REJECT spam
+

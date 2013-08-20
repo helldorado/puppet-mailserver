@@ -1,0 +1,99 @@
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+biff = no
+append_dot_mydomain = no
+myhostname = spike.starbridge.org
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = $mydomain
+mydestination = $myhostname, localhost.$mydomain, localhost
+mynetworks = 127.0.0.0/8
+recipient_delimiter = +
+home_mailbox = Maildir/ 
+notify_classes = 2bounce, bounce, delay, policy, protocol, resource, software
+smtpd_helo_required = yes
+strict_rfc821_envelopes = yes
+
+## TLS
+smtp_tls_CAfile = /etc/postfix/tls/cacert.pem
+smtp_tls_security_level = may
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_tls_session_cache
+smtpd_tls_security_level = may
+smtpd_tls_auth_only = yes
+smtpd_tls_key_file = /etc/postfix/tls/starbridge-key.pem
+smtpd_tls_cert_file = /etc/postfix/tls/starbridge-cert.pem
+smtpd_tls_CAfile = /etc/postfix/tls/cacert.pem
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_tls_session_cache
+tls_random_source = dev:/dev/urandom
+
+relay_domains = proxy:mysql:/etc/postfix/mysql_relay_domains_maps.cf
+relay_recipient_maps = proxy:mysql:/etc/postfix/mysql_relay_recipients_maps.cf
+virtual_alias_maps = proxy:mysql:/etc/postfix/mysql_virtual_alias_maps.cf,proxy:mysql:/etc/postfix/mysql_virtual_alias_domain_maps.cf,proxy:mysql:/etc/postfix/mysql_virtual_alias_domain_catchall_maps.cf
+virtual_gid_maps = static:20001
+virtual_mailbox_base = /home/virtual
+virtual_mailbox_domains = proxy:mysql:/etc/postfix/mysql_virtual_domains_maps.cf
+virtual_mailbox_maps = proxy:mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf,proxy:mysql:/etc/postfix/mysql_virtual_alias_domain_mailbox_maps.cf
+virtual_minimum_uid = 20001
+virtual_uid_maps = static:20001
+transport_maps = proxy:mysql:/etc/postfix/mysql_transport.cf,proxy:mysql:/etc/postfix/mysql_transport2.cf
+proxy_read_maps = $local_recipient_maps $mydestination $virtual_alias_maps $virtual_alias_domains $virtual_mailbox_maps $virtual_mailbox_domains $relay_recipient_maps $relay_domains $canonical_maps $sender_canonical_maps $recipient_canonical_maps $relocated_maps $transport_maps $mynetworks $smtpd_recipient_restrictions $smtpd_sender_login_maps $has_our_domain_as_sender
+message_size_limit = 50240000
+
+header_checks = regexp:/etc/postfix/header_checks.cf
+body_checks = regexp:/etc/postfix/body_checks.cf
+mime_header_checks = regexp:/etc/postfix/mime_headers_checks.cf
+
+## DOVECOT
+dovecot_destination_recipient_limit = 1
+virtual_transport = dovecot
+
+content_filter = smtp-amavis:[127.0.0.1]:10024
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = 
+broken_sasl_auth_clients = yes
+smtpd_sasl_authenticated_header = yes
+
+smtpd_sender_login_maps = proxy:mysql:/etc/postfix/mysql-sasl-sender-check.cf,proxy:mysql:/etc/postfix/mysql_virtual_alias_domain_maps.cf
+smtpd_sender_restrictions =
+    reject_authenticated_sender_login_mismatch
+smtpd_reject_unlisted_sender = yes
+smtpd_restriction_classes =
+  has_our_domain_as_sender
+has_our_domain_as_sender =
+  check_sender_access proxy:mysql:/etc/postfix/mysql_our_domain_as_sender.cf,hash:/etc/postfix/our_domain_as_sender
+  reject
+
+smtpd_recipient_restrictions =
+        reject_non_fqdn_recipient,
+        reject_unknown_sender_domain,
+        reject_non_fqdn_sender,
+        reject_unknown_recipient_domain,
+        reject_invalid_helo_hostname,
+        reject_unlisted_recipient,
+        reject_unlisted_sender,
+        permit_mynetworks,
+        permit_sasl_authenticated,
+        reject_non_fqdn_helo_hostname,
+        reject_unauth_destination,
+        check_client_access hash:/etc/postfix/internal_networks,
+        check_sender_access proxy:mysql:/etc/postfix/mysql_not_our_domain_as_sender.cf,
+        check_helo_access proxy:mysql:/etc/postfix/mysql-hello.cf,
+        check_sender_access proxy:mysql:/etc/postfix/mysql-sender.cf,
+        check_client_access proxy:mysql:/etc/postfix/mysql-client.cf,
+        permit
+
+smtpd_data_restrictions =
+        reject_unauth_pipelining,
+        permit
+
+smtpd_relay_restrictions =
+
+postscreen_dnsbl_threshold = 2
+postscreen_dnsbl_sites = zen.spamhaus.org*2 bl.spamcop.net*2 b.barracudacentral.org*1 bl.mailspike.net*1
+postscreen_dnsbl_action = enforce
+postscreen_greet_action = enforce
