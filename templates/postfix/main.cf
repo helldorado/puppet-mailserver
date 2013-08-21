@@ -64,9 +64,18 @@ smtpd_sender_restrictions =
 smtpd_reject_unlisted_sender = yes
 smtpd_restriction_classes =
   has_our_domain_as_sender
+  client_throttle
+
 has_our_domain_as_sender =
   check_sender_access proxy:mysql:/etc/postfix/mysql_our_domain_as_sender.cf,hash:/etc/postfix/our_domain_as_sender
   reject
+
+
+client_throttle =
+  check_policy_service inet:127.0.0.1:10031
+
+smtpd_client_restrictions =
+        check_policy_service inet:127.0.0.1:10031
 
 smtpd_recipient_restrictions =
         reject_non_fqdn_recipient,
@@ -90,6 +99,9 @@ smtpd_recipient_restrictions =
 smtpd_data_restrictions =
         reject_unauth_pipelining,
         permit
+
+smtpd_end_of_data_restrictions = 
+            check_policy_service inet:127.0.0.1:10031
 
 smtpd_relay_restrictions =
 

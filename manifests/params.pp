@@ -14,74 +14,142 @@
 #
 # This class file is not called directly
 class mailserver::params {
-  $nx_temp_dir                = '/tmp'
-  $nx_run_dir                 = '/var/mailserver'
+  ## Postfix 
+  $postfix_conf_dir           = '/etc/postfix'
+  $postfix_confd_purge        = false
+  $postfix_smtpd_tls          = true
+  $postfix_smtpd_sasl_auth    = true
+  $postfix_submission         = true
+  $postix_rbl_check           = true
+  $postfix_headers_check      = true
+  $postfix_body_check         = true
+  $postfix_mime_check         = true
+  $postfix_db_name            = 'postfix'
+  $postfix_db_user            = 'postfix'
+  $postfix_db_password        = undef
+  $postfix_mydomain           = undef
+  $postfix_myhostname         = undef
+  
+  
+  $postfix_logdir = $::kernel ? {
+    /(?i-mx:linux)/ => '/var/log/',
+  }
 
-  $nx_conf_dir                = '/etc/mailserver'
-  $nx_confd_purge             = false
-  $nx_worker_processes        = 1
-  $nx_worker_connections      = 1024
-  $nx_types_hash_max_size     = 1024
-  $nx_types_hash_bucket_size  = 512
-  $nx_names_hash_bucket_size  = 64
-  $nx_multi_accept            = off
-# One of [kqueue|rtsig|epoll|/dev/poll|select|poll|eventport]
-# or false to use OS default
-  $nx_events_use              = false
-  $nx_sendfile                = on
-  $nx_keepalive_timeout       = 65
-  $nx_tcp_nodelay             = on
-  $nx_gzip                    = on
-  $nx_server_tokens           = on
-  $nx_spdy                    = off
-  $nx_ssl_stapling            = off
+  $postfix_pid = $::kernel ? {
+    /(?i-mx:linux)/  => '/var/spool/postfix/pid/master.pid',
+  }
+  
+  $postfix_configtest_enable = false
+  $postfix_service_restart = $::operatingsystem ? {
+    /(?i-mx:debian|ubuntu)/                                                    => '/etc/init.d/postfix check && /etc/init.d/postfix restart',
+    /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse|amazon|gentoo)/ => '/sbin/service postfix check && /sbin/service postfix restart',
+  }
 
-
-  $nx_proxy_redirect          = off
-  $nx_proxy_set_header        = [
-    'Host $host',
-    'X-Real-IP $remote_addr',
-    'X-Forwarded-For $proxy_add_x_forwarded_for',
+  ## Dovecot
+  $dovecot_conf_dir                       = '/etc/dovecot'
+  $dovecot_confd_purge                    = false
+  $dovecot_base_dir                       = '/var/run/dovecot'
+  $dovecot_quota                          = true
+  $dovecot_quota_warning                  = '85%'
+  $dovecot_quota_warning_message          = undef
+  $dovecot_disable_plaintext_auth         = true
+  $dovecot_log_timestamp                  = '"%Y-%m-%d %H:%M:%S"'
+  $dovecot_vmail_homedir                  = undef
+  $dovecot_mail_location_suffix           = '%u'
+  $dovecot_mail_uid                       = 'vmail'
+  $dovecot_mail_gid                       = 'vmail'
+  $dovecot_mail_plugins                   = 'quota fts fts_solr acl zlib mail_log notify'
+  $dovecot_imap_mail_plugins              = 'quota imap_quota acl imap_acl autocreate mail_log notify zlib'
+  $dovecot_imap_client_workarounds        = 'delay-newmail'
+  $dovecot_imap_max_line_length           = 65536
+  $dovecot_mail_max_userip_connections    = 20
+  $dovecot_pop3_mail_plugins              = 'quota zlib mail_log notify'
+  $dovecot_pop3_client_workarounds        = 'outlook-no-nuls oe-ns-eoh'
+  $dovecot_pop3_uidl_format               = '%08Xu%08Xv'
+  $dovecot_managesieve_logout_format      = 'bytes ( in=%i : out=%o )'
+  $dovecot_mail_log_events                = 'delete undelete expunge copy mailbox_delete mailbox_rename save mailbox_create'
+  $dovecot_mail_log_fields                = 'mail_log_fields'
+  $dovecot_zlib_save_level                = 9
+  $dovecot_zlib_save                      = 'bz2'
+  $dovocot_protocols                      = 'imap pop3 sieve lmtp'
+  $dovecot_mail_privileged_group          = 'vmail'
+  $dovecot_lda_mail_plugins               = 'sieve quota zlib mail_log notify'
+  $dovecot_lda_postmaster                 = undef
+  $dovecot_lda_syslog_facility            = 'mail'
+  $dovecot_lda_quota_full_tempfail        = true
+  $dovecot_lmtp_mail_plugins              = 'sieve quota fts zlib mail_log notify'
+  $dovecot_lmtp_postmaster                = undef
+  $dovecot_lmtp_quota_full_tempfail       = true
+  $dovecot_managesieve_notify_capability  = 'comparator-i;octet comparator-i;ascii-casemap fileinto reject envelope encoded-character vacation subaddress comparator-i;ascii-numeric relational regex imap4flags copy include variables body enotify environment mailbox date spamtest spamtestplus virustest'
+  
+  ## Amavisd
+  $amavisd_conf_dir                       = '/etc/amavis'
+  $amavisd_confd_purge                    = false
+  $amavisd_uid                            = 1002
+  $amavisd_gid                            = 1002
+  $amavisd_max_servers                    = 2
+  $amavisd_daemon_user                    = 'amavis'
+  $amavisd_daemon_group                   = 'amavis'
+  $amavisd_db_storage                     = undef
+  $amavisd_tmp_storage                    = undef
+  $amavisd_mydomain                       = "${postfix_mydomain}"
+  $amavisd_myhostname                     = "${postfix_myhostname}"
+  $amavisd_myhome                         = '/var/amavis' 
+  $amavisd_tempbase                       = '$MYHOME/tmp'
+  $amavisd_quarantine_dir                 = '${dovecot_vmail_homedir}/virusmails'
+  $amavisd_x_header_tag                   = 'X-Virus-Scanned'       
+  $amavisd_x_header_line                  = 'Mailstorm at $mydomain'
+  $amavisd_log_level                      = 2              
+  $amavisd_log_recip_templ                = undef    
+  $amavisd_do_syslog                      = 1              
+  $amavisd_syslog_facility                = 'mail'  
+  $amavisd_syslog_priority                = 'debug'  
+  $amavisd_enable_db                      = 1              
+  $amavisd_enable_global_cache            = 1    
+  $amavisd_nanny_details_level            = 2    
+  $amavisd_enable_dkim_verification       = 1
+  $amavisd_enable_dkim_signing            = 1
+  $amavisd_plugin                         = [
+    policyd                             
   ]
-  $nx_proxy_cache_path        = false
-  $nx_proxy_cache_levels      = 1
-  $nx_proxy_cache_keys_zone   = 'd2:100m'
-  $nx_proxy_cache_max_size    = '500m'
-  $nx_proxy_cache_inactive    = '20m'
-
-  $nx_client_body_temp_path   = "${nx_run_dir}/client_body_temp"
-  $nx_client_body_buffer_size = '128k'
-  $nx_client_max_body_size    = '10m'
-  $nx_proxy_temp_path         = "${nx_run_dir}/proxy_temp"
-  $nx_proxy_connect_timeout   = '90'
-  $nx_proxy_send_timeout      = '90'
-  $nx_proxy_read_timeout      = '90'
-  $nx_proxy_buffers           = '32 4k'
-  $nx_proxy_http_version      = '1.0'
-
-  $nx_logdir = $::kernel ? {
-    /(?i-mx:linux)/ => '/var/log/mailserver',
-  }
-
-  $nx_pid = $::kernel ? {
-    /(?i-mx:linux)/  => '/var/run/mailserver.pid',
-  }
-
-  $nx_daemon_user = $::operatingsystem ? {
-    /(?i-mx:debian|ubuntu)/                                                    => 'www-data',
-    /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse|amazon|gentoo)/ => 'mailserver',
-  }
-
-  # Service restart after mailserver 0.7.53 could also be just
-  # "/path/to/mailserver/bin -s HUP" Some init scripts do a configtest, some don't.
-  # If configtest_enable it's true then service restart will take
-  # $nx_service_restart value, forcing configtest.
-
-  $nx_configtest_enable = false
-  $nx_service_restart = '/etc/init.d/mailserver configtest && /etc/init.d/mailserver restart'
-
-  $nx_mail = false
-
-  $nx_http_cfg_append = false
-
+   
+  ## Spamassassin
+  $spamassassin_conf_dir                             = '/etc/spamassassin'
+  $spamassassin_confd_purge                          = false
+  $spamassassin_required_score                       = '4.3'
+  $spamassassin_rewrite_header                       = 'Subject *****SPAM*****'
+  $spamassassin_report_safe                          = 0
+  $spamassassin_trusted_networks                     = undef
+  $spamassassin_internal_networks                    = undef
+  $spamassassin_use_bayes                            = 1
+  $spamassassin_bayes_auto_expire                    = 0
+  $spamassassin_bayes_sql_username                   = 'spam'
+  $spamassassin_bayes_sql_password                   = undef
+  $spamassassin_bayes_sql_override_username          = 'amavis'
+  $spamassassin_bayes_auto_learn                     = 1
+  $spamassassin_bayes_auto_learn_threshold_nonspam   = '0.1'
+  $spamassassin_bayes_auto_learn_threshold_spam      = '7.0'
+  $spamassassin_skip_rbl_checks                      = 0
+  $spamassassin_dns_available                        = true
+  
+  ## Clamav
+  $clamav_conf_dir                       = '/etc/clamav'
+  $clamav_confd_purge                    = false
+  
+  ## DSPAM
+  $dspam_conf_dir                       = '/etc/dspam'
+  $dspam_confd_purge                    = false
+  $dspam_home                           = "${amavisd_myhome}/dspam"
+  $dspam_purge_signatures               = 14
+  $dspam_purge_neutral                  = 90
+  $dspam_purge_unused                   = 90
+  $dspam_purge_hapaxes                  = 30
+  $dspam_purge_hits1S                   = 15    
+  $dspam_purge_hits1I                   = 15
+  $dspam_db_name                        = 'dspam'
+  $dspam_db_user                        = 'dspam'
+  $dspam_db_password                    = undef
+  
+  ## Roundcube
+  
 }
