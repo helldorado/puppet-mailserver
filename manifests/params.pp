@@ -151,5 +151,21 @@ class mailserver::params {
   $dspam_db_password                    = undef
   
   ## Roundcube
-  
+  $roundcube_home_dir                   = '/usr/share/roundcube'
+  $roundcube_db_name                    = 'roundcube'
+  $roundcube_db_user                    = 'roundcube'
+  $roundcube_db_password                = undef
+  $roundcube_plugins                    = undef
+  $roundcube_lang                       = 'en'
+  $roundcube_log_date_format            = "d-M-Y H:i:s O"
+  $roundcube_imap_auth_type             = 'null'
+  $roundcube_support_url                = undef
+  $roundcube_auto_create_user           = true
+  $roundcube_message_cache_lifetime     = '10d'
+  $roundcube_force_https                = true
+  $roundcube_use_https                  = true
+  $roundcube_login_autocomplete         = 2
+  $roundcube_login_lc                   = 2
+  $roundcube_session_lifetime           = 10
+  $roundcube_ display_version           = false
 }
