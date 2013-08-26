@@ -167,5 +167,5 @@ class mailserver::params {
   $roundcube_login_autocomplete         = 2
   $roundcube_login_lc                   = 2
   $roundcube_session_lifetime           = 10
-  $roundcube_ display_version           = false
+  $roundcube_display_version           = false
 }
