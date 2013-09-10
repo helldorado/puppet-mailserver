@@ -15,22 +15,48 @@
 # This class file is not called directly
 class mailserver::params {
   ## Postfix 
-  $postfix_conf_dir           = '/etc/postfix'
-  $postfix_confd_purge        = false
-  $postfix_smtpd_tls          = true
-  $postfix_smtpd_sasl_auth    = true
-  $postfix_submission         = true
-  $postix_rbl_check           = true
-  $postfix_headers_check      = true
-  $postfix_body_check         = true
-  $postfix_mime_check         = true
-  $postfix_db_name            = 'postfix'
-  $postfix_db_user            = 'postfix'
-  $postfix_db_password        = undef
-  $postfix_mydomain           = undef
-  $postfix_myhostname         = undef
-  
-  
+  $postfix_conf_dir                      = '/etc/postfix'
+  $postfix_confd_purge                   = false
+  $postfix_smtpd_tls                     = true
+  $postfix_smtpd_sasl_auth               = true
+  $postfix_submission                    = true
+  $postix_rbl_check                      = true
+  $postfix_headers_check                 = true
+  $postfix_body_check                    = true
+  $postfix_mime_check                    = true
+  $postfix_db_name                       = 'postfix'
+  $postfix_db_user                       = 'postfix'
+  $postfix_db_password                   = undef
+  $postfix_mydomain                      = undef
+  $postfix_myhostname                    = undef
+  $postfix_admin_home_dir                = '/usr/share/postfixadmin'
+  $postfix_admin_conf_file               = '${postfix_admin_dir}/config.inc.php'
+  $postfix_admin_apache_conf             = '/etc/apache2/conf.d/postfixadmin.conf'
+  $postfix_admin_db_name                 = 'posfixadmin'
+  $postfix_admin_db_user                 = 'postfixadmin'
+  $postfix_admin_db_password             = undef
+  $postfix_admin_plugins                 = undef
+  $postfix_admin_setup_password          = undef
+  $postfix_admin_admin_url               = '/postfixadmin'
+  $postfix_admin_default_language        = 'en'
+  $postfix_admin_admin_email             = 'postmaster@${postfix_mydomain}'
+  $postfix_admin_generate_password       = false
+  $postfix_admin_show_password           = false
+  $postfix_admin_page_size               = 10
+  $postfix_admin_domain_path             = true
+  $postfix_admin_domain_in_mailbox       = false
+  $postfix_admin_vacation                = true
+  $postfix_admin_vacation_domain         = 'autoreply@${postfix_mydomain}'  
+  $postfix_admin_quota                   = true
+  $postfix_admin_alias_control           = true
+  $postfix_admin_alias_control_admin     = true
+  $postfix_admin_default_aliases         = [
+     'abuse      => abuse@${domain}',
+     'hostmaster => hostmaster@${domain}',
+     'postmaster => postmaster@${domain}',
+     'webmaster  => webmaster@${domain}',
+  ] 
+    
   $postfix_logdir = $::kernel ? {
     /(?i-mx:linux)/ => '/var/log/',
   }
@@ -71,7 +97,7 @@ class mailserver::params {
   $dovecot_mail_log_fields                = 'mail_log_fields'
   $dovecot_zlib_save_level                = 9
   $dovecot_zlib_save                      = 'bz2'
-  $dovocot_protocols                      = 'imap pop3 sieve lmtp'
+  $dovecot_protocols                      = 'imap pop3 sieve lmtp'
   $dovecot_mail_privileged_group          = 'vmail'
   $dovecot_lda_mail_plugins               = 'sieve quota zlib mail_log notify'
   $dovecot_lda_postmaster                 = undef
@@ -92,8 +118,8 @@ class mailserver::params {
   $amavisd_daemon_group                   = 'amavis'
   $amavisd_db_storage                     = undef
   $amavisd_tmp_storage                    = undef
-  $amavisd_mydomain                       = "${postfix_mydomain}"
-  $amavisd_myhostname                     = "${postfix_myhostname}"
+  $amavisd_mydomain                       = '${postfix_mydomain}'
+  $amavisd_myhostname                     = '${postfix_myhostname}'
   $amavisd_myhome                         = '/var/amavis' 
   $amavisd_tempbase                       = '$MYHOME/tmp'
   $amavisd_quarantine_dir                 = '${dovecot_vmail_homedir}/virusmails'
@@ -109,9 +135,10 @@ class mailserver::params {
   $amavisd_nanny_details_level            = 2    
   $amavisd_enable_dkim_verification       = 1
   $amavisd_enable_dkim_signing            = 1
-  $amavisd_plugin                         = [
+  $amavisd_plugin                         = undef
+  $amavisd_plugin_enabled                 = ['
     policyd                             
-  ]
+  ']
    
   ## Spamassassin
   $spamassassin_conf_dir                             = '/etc/spamassassin'
@@ -139,7 +166,7 @@ class mailserver::params {
   ## DSPAM
   $dspam_conf_dir                       = '/etc/dspam'
   $dspam_confd_purge                    = false
-  $dspam_home                           = "${amavisd_myhome}/dspam"
+  $dspam_home                           = '${amavisd_myhome}/dspam'
   $dspam_purge_signatures               = 14
   $dspam_purge_neutral                  = 90
   $dspam_purge_unused                   = 90
@@ -149,15 +176,17 @@ class mailserver::params {
   $dspam_db_name                        = 'dspam'
   $dspam_db_user                        = 'dspam'
   $dspam_db_password                    = undef
-  
+    
   ## Roundcube
   $roundcube_home_dir                   = '/usr/share/roundcube'
+  $roundcube_conf_file                  = '${roundcube_home_dir}/main.inc.php'
+  $roundcube_apache_conf                = '/etc/apache2/conf.d/rouncube.conf'
   $roundcube_db_name                    = 'roundcube'
   $roundcube_db_user                    = 'roundcube'
   $roundcube_db_password                = undef
   $roundcube_plugins                    = undef
   $roundcube_lang                       = 'en'
-  $roundcube_log_date_format            = "d-M-Y H:i:s O"
+  $roundcube_log_date_format            = 'd-M-Y H:i:s O'
   $roundcube_imap_auth_type             = 'null'
   $roundcube_support_url                = undef
   $roundcube_auto_create_user           = true
@@ -167,5 +196,14 @@ class mailserver::params {
   $roundcube_login_autocomplete         = 2
   $roundcube_login_lc                   = 2
   $roundcube_session_lifetime           = 10
-  $roundcube_ display_version           = false
+  $roundcube_display_version            = false
+  $roundcube_plugins_enabled            = ['
+    autologon
+    password
+    autoresponder
+    calender
+    managesieve
+    zipdownload
+    attachment_reminder
+  ']
 }
