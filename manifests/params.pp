@@ -15,18 +15,27 @@
 # This class file is not called directly
 class mailserver::params {
   ## Postfix 
-  $postfix_conf_dir                      = '/etc/postfix'
-  $postfix_confd_purge                   = false
-  $postfix_smtpd_tls                     = true
-  $postfix_smtpd_sasl_auth               = true
-  $postfix_submission                    = true
-  $postix_rbl_check                      = true
-  $postfix_headers_check                 = true
-  $postfix_body_check                    = true
-  $postfix_mime_check                    = true
-  $postfix_db_name                       = 'postfix'
-  $postfix_db_user                       = 'postfix'
-  $postfix_db_password                   = undef
+  $postfix_conf_dir                                 = '/etc/postfix'
+  $postfix_confd_purge                              = false
+  $postfix_smtpd_tls                                = true
+  $postfix_smtpd_sasl_auth                          = true
+  $postfix_submission                               = true
+  $postix_rbl_check                                 = true
+  $postfix_headers_check                            = true
+  $postfix_body_check                               = true
+  $postfix_mime_check                               = true
+  $postfix_smtpd_recipient_limit                    = undef # (default: 50) The maximum number of connections that an SMTP client may make simultaneously. 
+  $postfix_smtpd_client_connection_count_limit      = undef # (default: no limit) The maximum number of connections that an SMTP client may make in the time interval specified with anvil_rate_time_unit (default: 60s).
+  $postfix_smtpd_client_connection_rate_limit       = undef # (default: no limit) The maximum number of message delivery requests that an SMTP client may make in the time interval specified with anvil_rate_time_unit (default: 60s).  
+  $postfix_tpd_client_message_rate_limit            = undef # (default: no limit) The maximum number of recipient addresses that an SMTP client may specify in the time interval specified with anvil_rate_time_unit (default: 60s).
+  $postfix_smtpd_client_recipient_rate_limit        = undef # 
+  $postfix_smtpd_client_new_tls_session_rate_limit  = undef #
+  $postfix_smtpd_client_event_limit_exceptions      = undef #
+  
+  
+  
+  
+
   $postfix_mydomain                      = undef
   $postfix_myhostname                    = undef
   $postfix_admin_home_dir                = '/usr/share/postfixadmin'
@@ -205,5 +214,6 @@ class mailserver::params {
     managesieve
     zipdownload
     attachment_reminder
+    archiver_abstractor
   ']
 }

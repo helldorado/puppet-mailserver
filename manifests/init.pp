@@ -105,124 +105,114 @@ class mailserver (
   $dovecot_lmtp_postmaster                = $mailserver::params::dovecot_lmtp_postmaster,
   $dovecot_lmtp_quota_full_tempfail       = $mailserver::params::dovecot_lmtp_quota_full_tempfail,
   $dovecot_managesieve_notify_capability  = $mailserver::params::dovecot_managesieve_notify_capability,
-  $amavisd_conf_dir                       = '2'
-  $amavisd_confd_purge                    = false
-  $amavisd_uid                            = 1002
-  $amavisd_gid                            = 1002
-  $amavisd_max_servers                    = 2
-  $amavisd_daemon_user                    = 'amavis'
-  $amavisd_daemon_group                   = 'amavis'
-  $amavisd_db_storage                     = undef
-  $amavisd_tmp_storage                    = undef
-  $amavisd_mydomain                       = '${postfix_mydomain}'
-  $amavisd_myhostname                     = '${postfix_myhostname}'
-  $amavisd_myhome                         = '/var/amavis' 
-  $amavisd_tempbase                       = '$MYHOME/tmp'
-  $amavisd_quarantine_dir                 = '${dovecot_vmail_homedir}/virusmails'
-  $amavisd_x_header_tag                   = 'X-Virus-Scanned'       
-  $amavisd_x_header_line                  = 'Mailstorm at $mydomain'
-  $amavisd_log_level                      = 2              
-  $amavisd_log_recip_templ                = undef    
-  $amavisd_do_syslog                      = 1              
-  $amavisd_syslog_facility                = 'mail'  
-  $amavisd_syslog_priority                = 'debug'  
-  $amavisd_enable_db                      = 1              
-  $amavisd_enable_global_cache            = 1    
-  $amavisd_nanny_details_level            = 2    
-  $amavisd_enable_dkim_verification       = 1
-  $amavisd_enable_dkim_signing            = 1
-  $amavisd_plugin                         = undef
+  $amavisd_conf_dir                       = '2',
+  $amavisd_confd_purge                    = false,
+  $amavisd_uid                            = '1002',
+  $amavisd_gid                            = '1002',
+  $amavisd_max_servers                    = '2',
+  $amavisd_daemon_user                    = 'amavis',
+  $amavisd_daemon_group                   = 'amavis',
+  $amavisd_db_storage                     = undef,
+  $amavisd_tmp_storage                    = undef,
+  $amavisd_mydomain                       = '${postfix_mydomain}',
+  $amavisd_myhostname                     = '${postfix_myhostname}',
+  $amavisd_myhome                         = '/var/amavis', 
+  $amavisd_tempbase                       = '$MYHOME/tmp',
+  $amavisd_quarantine_dir                 = '${dovecot_vmail_homedir}/virusmails',
+  $amavisd_x_header_tag                   = 'X-Virus-Scanned',       
+  $amavisd_x_header_line                  = 'Mailstorm at $mydomain',
+  $amavisd_log_level                      = '2',              
+  $amavisd_log_recip_templ                = undef,    
+  $amavisd_do_syslog                      = '1',              
+  $amavisd_syslog_facility                = 'mail',  
+  $amavisd_syslog_priority                = 'debug',  
+  $amavisd_enable_db                      = '1',              
+  $amavisd_enable_global_cache            = '1',    
+  $amavisd_nanny_details_level            = '2',    
+  $amavisd_enable_dkim_verification       = '1',
+  $amavisd_enable_dkim_signing            = '1',
+  $amavisd_plugin                         = undef,
   $amavisd_plugin_enabled                 = ['
     policyd                             
-  ']
+  '],
    
   ## Spamassassin
-  $spamassassin_conf_dir                             = '/etc/spamassassin'
-  $spamassassin_confd_purge                          = false
-  $spamassassin_required_score                       = '4.3'
-  $spamassassin_rewrite_header                       = 'Subject *****SPAM*****'
-  $spamassassin_report_safe                          = 0
-  $spamassassin_trusted_networks                     = undef
-  $spamassassin_internal_networks                    = undef
-  $spamassassin_use_bayes                            = 1
-  $spamassassin_bayes_auto_expire                    = 0
-  $spamassassin_bayes_sql_username                   = 'spam'
-  $spamassassin_bayes_sql_password                   = undef
-  $spamassassin_bayes_sql_override_username          = 'amavis'
-  $spamassassin_bayes_auto_learn                     = 1
-  $spamassassin_bayes_auto_learn_threshold_nonspam   = '0.1'
-  $spamassassin_bayes_auto_learn_threshold_spam      = '7.0'
-  $spamassassin_skip_rbl_checks                      = 0
-  $spamassassin_dns_available                        = true
+  $spamassassin_conf_dir                             = '/etc/spamassassin',
+  $spamassassin_confd_purge                          = false,
+  $spamassassin_required_score                       = '4.3',
+  $spamassassin_rewrite_header                       = 'Subject *****SPAM*****',
+  $spamassassin_report_safe                          = '0',
+  $spamassassin_trusted_networks                     = undef,
+  $spamassassin_internal_networks                    = undef,
+  $spamassassin_use_bayes                            = '1',
+  $spamassassin_bayes_auto_expire                    = '0',
+  $spamassassin_bayes_sql_username                   = 'spam',
+  $spamassassin_bayes_sql_password                   = undef,
+  $spamassassin_bayes_sql_override_username          = 'amavis',
+  $spamassassin_bayes_auto_learn                     = '1',
+  $spamassassin_bayes_auto_learn_threshold_nonspam   = '0.1',
+  $spamassassin_bayes_auto_learn_threshold_spam      = '7.0',
+  $spamassassin_skip_rbl_checks                      = '0',
+  $spamassassin_dns_available                        = true,
   
   ## Clamav
-  $clamav_conf_dir                       = '/etc/clamav'
-  $clamav_confd_purge                    = false
-  
-  ## DSPAM
-  $dspam_conf_dir                       = '/etc/dspam'
-  $dspam_confd_purge                    = false
-  $dspam_home                           = '${amavisd_myhome}/dspam'
-  $dspam_purge_signatures               = 14
-  $dspam_purge_neutral                  = 90
-  $dspam_purge_unused                   = 90
-  $dspam_purge_hapaxes                  = 30
-  $dspam_purge_hits1S                   = 15    
-  $dspam_purge_hits1I                   = 15
-  $dspam_db_name                        = 'dspam'
-  $dspam_db_user                        = 'dspam'
-  $dspam_db_password                    = undef
+  $clamav_conf_dir                       = '/etc/clamav',
+  $clamav_confd_purge                    = false,
     
   ## Roundcube
-  $roundcube_home_dir                   = '/usr/share/roundcube'
-  $roundcube_conf_file                  = '${roundcube_home_dir}/main.inc.php'
-  $roundcube_apache_conf                = '/etc/apache2/conf.d/rouncube.conf'
-  $roundcube_db_name                    = 'roundcube'
-  $roundcube_db_user                    = 'roundcube'
-  $roundcube_db_password                = undef
-  $roundcube_plugins                    = undef
-  $roundcube_lang                       = 'en'
-  $roundcube_log_date_format            = 'd-M-Y H:i:s O'
-  $roundcube_imap_auth_type             = 'null'
-  $roundcube_support_url                = undef
-  $roundcube_auto_create_user           = true
-  $roundcube_message_cache_lifetime     = '10d'
-  $roundcube_force_https                = true
-  $roundcube_use_https                  = true
-  $roundcube_login_autocomplete         = 2
-  $roundcube_login_lc                   = 2
-  $roundcube_session_lifetime           = 10
-  $roundcube_display_version            = false
+  $roundcube_home_dir                   = '/usr/share/roundcube',
+  $roundcube_conf_file                  = '${roundcube_home_dir}/main.inc.php',
+  $roundcube_apache_conf                = '/etc/apache2/conf.d/rouncube.conf',
+  $roundcube_db_name                    = 'roundcube',
+  $roundcube_db_user                    = 'roundcube',
+  $roundcube_db_password                = undef,
+  $roundcube_plugins                    = undef,
+  $roundcube_lang                       = 'en',
+  $roundcube_log_date_format            = 'd-M-Y H:i:s O',
+  $roundcube_imap_auth_type             = 'null',
+  $roundcube_support_url                = undef,
+  $roundcube_auto_create_user           = true,
+  $roundcube_message_cache_lifetime     = '10d',
+  $roundcube_force_https                = true,
+  $roundcube_use_https                  = true,
+  $roundcube_login_autocomplete         = '2',
+  $roundcube_login_lc                   = '2',
+  $roundcube_session_lifetime           = '10',
+  $roundcube_display_version            = false,
   $roundcube_plugins_enabled            = ['
-  
-  
-  
+  autologon
+    password
+    autoresponder
+    calender
+    managesieve
+    zipdownload
+    attachment_reminder
+    archiver_abstractor
+  '],
   $mailserver_vhosts                     = {},
   $mailserver_upstreams                  = {},
   $mailserver_locations                  = {},
 ) inherits mailserver::params {
 
-  include stdlib
+ # include stdlib
 
   class { 'mailserver::package':
     notify => Class['mailserver::service'],
   }
 
   class { 'mailserver::config':
-    worker_processes      => $worker_processes,
-    worker_connections    => $worker_connections,
-    proxy_set_header      => $proxy_set_header,
-    proxy_http_version    => $proxy_http_version,
-    proxy_cache_path      => $proxy_cache_path,
-    proxy_cache_levels    => $proxy_cache_levels,
-    proxy_cache_keys_zone => $proxy_cache_keys_zone,
-    proxy_cache_max_size  => $proxy_cache_max_size,
-    proxy_cache_inactive  => $proxy_cache_inactive,
-    confd_purge           => $confd_purge,
-    server_tokens         => $server_tokens,
-    http_cfg_append       => $http_cfg_append,
-    require               => Class['mailserver::package'],
-    notify                => Class['mailserver::service'],
+    
+    proxy_http_version                   => $proxy_http_version,
+    proxy_cache_path                     => $proxy_cache_path,
+    proxy_cache_levels                   => $proxy_cache_levels,
+    proxy_cache_keys_zone                => $proxy_cache_keys_zone,
+    proxy_cache_max_size                 => $proxy_cache_max_size,
+    proxy_cache_inactive                 => $proxy_cache_inactive,
+    confd_purge                          => $confd_purge,
+    server_tokens                        => $server_tokens,
+    http_cfg_append                      => $http_cfg_append,
+    require                              => Class['mailserver::package'],
+    notify                               => Class['mailserver::service'],
   }
 
   class { 'mailserver::service':
