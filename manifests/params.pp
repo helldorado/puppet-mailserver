@@ -24,18 +24,36 @@ class mailserver::params {
   $postfix_headers_check                            = true
   $postfix_body_check                               = true
   $postfix_mime_check                               = true
-  $postfix_smtpd_recipient_limit                    = undef # (default: 50) The maximum number of connections that an SMTP client may make simultaneously. 
-  $postfix_smtpd_client_connection_count_limit      = undef # (default: no limit) The maximum number of connections that an SMTP client may make in the time interval specified with anvil_rate_time_unit (default: 60s).
-  $postfix_smtpd_client_connection_rate_limit       = undef # (default: no limit) The maximum number of message delivery requests that an SMTP client may make in the time interval specified with anvil_rate_time_unit (default: 60s).  
-  $postfix_tpd_client_message_rate_limit            = undef # (default: no limit) The maximum number of recipient addresses that an SMTP client may specify in the time interval specified with anvil_rate_time_unit (default: 60s).
-  $postfix_smtpd_client_recipient_rate_limit        = undef # 
-  $postfix_smtpd_client_new_tls_session_rate_limit  = undef #
-  $postfix_smtpd_client_event_limit_exceptions      = undef #
+          
+  ## IMPORTANT: These limits must not be used to regulate legitimate traffic: mail will suffer grotesque delays if you do so. 
+  ## The limits are designed to protect the smtpd(8) server against abuse by out-of-control clients.
+  ## IMPORTANT: Be careful when increasing the recipient limit per message delivery; 
+  ## some SMTP servers abort the connection when they run out of memory or when a hard recipient limit is reached, so that the message will never be delivered.
   
-  
-  
-  
+  $postfix_default_process_limit                                  = undef # Control how many daemon processes Postfix will run. As of Postfix 2.0 the default limit is 100 SMTP client processes, 100 SMTP server processes, and so on. This may overwhelm systems with little memory, as well as networks with low bandwidth.
+  $postfix_smtpd_recipient_limit                                  = undef # (default: 1000) controls how many recipients the Postfix smtpd(8) server will take per delivery.
+  $postfix_smtpd_client_connection_count_limit                    = undef # (default: 50) The maximum number of connections that an SMTP client may make simultaneously.
+  $postfix_smtpd_client_connection_rate_limit                     = undef # (default: no limit) The maximum number of connections that an SMTP client may make in the time interval specified with anvil_rate_time_unit (default: 60s).  
+  $postfix_tpd_client_message_rate_limit                          = undef # (default: no limit) The maximum number of message delivery requests that an SMTP client may make in the time interval specified with anvil_rate_time_unit (default: 60s).
+  $postfix_smtpd_client_recipient_rate_limit                      = undef # (default: no limit) The maximum number of recipient addresses that an SMTP client may specify in the time interval specified with anvil_rate_time_unit (default: 60s). 
+  $postfix_smtpd_client_new_tls_session_rate_limit                = undef # (default: no limit) The maximum number of new TLS sessions (without using the TLS session cache) that an SMTP client may negotiate in the time interval specified with anvil_rate_time_unit (default: 60s). 
+  $postfix_smtpd_client_event_limit_exceptions                    = undef # (default: $mynetworks) SMTP clients that are excluded from connection and rate limits specified above.
+  $postfix_initial_destination_concurrency                        = undef # (default: 5) controls how many messages are initially sent to the same destination before adapting delivery concurrency. 
+  $postfix_default_destination_concurrency_limit                  = undef # (default: 20) controls how many messages may be sent to the same destination simultaneously. 
+  $postfix_default_destination_recipient_limit                    = undef # (default: 50) controls how many recipients a Postfix delivery agent will send with each copy of an email message. 
 
+  ## IMPORTANT: If you increase the frequency of deferred mail delivery attempts, or if you flush the deferred mail queue frequently, then you may find that Postfix mail delivery performance actually becomes worse. The symptoms are as follows:
+  ## The active queue becomes saturated with mail that has delivery problems. New mail enters the active queue only when an old message is deferred. This is a slow process that usually requires timing out one or more SMTP connections.
+  ## All available Postfix delivery agents become occupied trying to connect to unreachable sites etc. New mail has to wait until a delivery agent becomes available. This is a slow process that usually requires timing out one or more SMTP connections.
+
+  $postfix_queue_run_delay                                        = undef # (default: 300 seconds; before Postfix 2.4: 1000s) How often the queue manager scans the queue for deferred mail.
+  $postfix_minimal_backoff_time                                   = undef # (default: 300 seconds; before Postfix 2.4: 1000s) The minimal amount of time a message won't be looked at, and the minimal amount of time to stay away from a "dead" destination.
+  $postfix_maximal_backoff_time                                   = undef # (default: 4000 seconds) The maximal amount of time a message won't be looked at after a delivery failure.
+  $postfix_maximal_queue_lifetime                                 = undef # (default: 5 days) How long a message stays in the queue before it is sent back as undeliverable. Specify 0 for mail that should be returned immediately after the first unsuccessful delivery attempt.
+  $postfix_bounce_queue_lifetime                                  = undef # (default: 5 days, available with Postfix version 2.1 and later) How long a MAILER-DAEMON message stays in the queue before it is considered undeliverable. Specify 0 for mail that should be tried only once.
+  $postfix_qmgr_message_recipient_limit                           = undef # (default: 20000) The size of many in-memory queue manager data structures. Among others, this parameter limits the size of the short-term, in-memory list of "dead" destinations. Destinations that don't fit the list are not added.
+  $postfix_transport_destination_concurrency_failed_cohort_limit  = undef # Controls when a destination is considered "dead". This parameter is critical with a non-zero transport_destination_rate_delay, with a reduced transport_destination_concurrency_limit, or with a reduced initial_destination_concurrency.
+  
   $postfix_mydomain                      = undef
   $postfix_myhostname                    = undef
   $postfix_admin_home_dir                = '/usr/share/postfixadmin'
