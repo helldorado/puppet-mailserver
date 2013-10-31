@@ -20,11 +20,65 @@ class mailserver::params {
   $postfix_smtpd_tls                                = true
   $postfix_smtpd_sasl_auth                          = true
   $postfix_submission                               = true
-  $postix_rbl_check                                 = true
+  $postix_postcreen_rbl_check                       = true
+  $postfix_postscreen_dnsbl_threshold               = undef
+  $postfix_postscreen_dnsbl_action                  = 'enforce'
+  $postfix_postscreen_greet_action                  = 'enforce' 
+  $postfix_postscreen_dnsbl_sites                   = [
+    'zen.spamhaus.org*2', 
+    'bl.spamcop.net*2',
+    'b.barracudacentral.org*1',
+    'bl.mailspike.net*1',
+  ]
   $postfix_headers_check                            = true
   $postfix_body_check                               = true
   $postfix_mime_check                               = true
-          
+  $postfix_smtpd_recipient_restrictions             = [
+    'reject_non_fqdn_recipient',
+    'reject_unknown_sender_domain',
+    'reject_non_fqdn_sender',
+    'reject_unknown_recipient_domain',
+    'reject_invalid_helo_hostname',
+    'reject_unlisted_recipient',
+    'reject_unlisted_sender',
+    'permit_mynetworks',
+    'permit_sasl_authenticated',
+    'reject_non_fqdn_helo_hostname',
+    'reject_unauth_destination',
+    'check_client_access hash:/etc/postfix/internal_networks',
+    'check_sender_access proxy:mysql:/etc/postfix/mysql_not_our_domain_as_sender.cf',
+    'check_helo_access proxy:mysql:/etc/postfix/mysql-hello.cf',
+    'check_sender_access proxy:mysql:/etc/postfix/mysql-sender.cf',
+    'check_client_access proxy:mysql:/etc/postfix/mysql-client.cf', 
+  ]
+  $postfix_smtp_amavis_unix                                  = [
+    'smtp_data_done_timeout=1200',
+    'smtp_send_xforward_command=yes',
+    'disable_dns_lookups=yes',
+    'max_use=20',
+  ]
+  $postfix_smtp_amavis_inet                                  = [
+    'content_filter=',
+    'local_recipient_maps=',
+    'relay_recipient_maps=',
+    'smtpd_restriction_classes=',
+    'smtpd_client_restrictions=',
+    'smtpd_helo_restrictions=',
+    'smtpd_sender_restrictions=',
+    'smtpd_recipient_restrictions=permit_mynetworks,reject',
+    'smtpd_data_restrictions=reject_unauth_pipelining',
+    'smtpd_end_of_data_restrictions=',
+    'mynetworks=127.0.0.0/8',
+    'strict_rfc821_envelopes=yes',
+    'smtpd_error_sleep_time=0',
+    'smtpd_soft_error_limit=1001',
+    'smtpd_hard_error_limit=1000',
+    'smtpd_client_connection_count_limit=0',
+    'smtpd_client_connection_rate_limit=0',
+    'receive_override_options=no_address_mappings,no_header_body_checks,no_unknown_recipient_checks',
+    'local_header_rewrite_clients=',
+  ]
+  
   ## IMPORTANT: These limits must not be used to regulate legitimate traffic: mail will suffer grotesque delays if you do so. 
   ## The limits are designed to protect the smtpd(8) server against abuse by out-of-control clients.
   ## IMPORTANT: Be careful when increasing the recipient limit per message delivery; 
@@ -156,16 +210,14 @@ class mailserver::params {
   $amavisd_log_recip_templ                = undef    
   $amavisd_do_syslog                      = 1              
   $amavisd_syslog_facility                = 'mail'  
-  $amavisd_syslog_priority                = 'debug'  
+  $amavisd_syslog_priority                = 'debug'
   $amavisd_enable_db                      = 1              
   $amavisd_enable_global_cache            = 1    
   $amavisd_nanny_details_level            = 2    
   $amavisd_enable_dkim_verification       = 1
   $amavisd_enable_dkim_signing            = 1
   $amavisd_plugin                         = undef
-  $amavisd_plugin_enabled                 = ['
-    policyd                             
-  ']
+  $amavisd_plugin_enabled                 = {}
    
   ## Spamassassin
   $spamassassin_conf_dir                             = '/etc/spamassassin'
@@ -190,20 +242,6 @@ class mailserver::params {
   $clamav_conf_dir                       = '/etc/clamav'
   $clamav_confd_purge                    = false
   
-  ## DSPAM
-  $dspam_conf_dir                       = '/etc/dspam'
-  $dspam_confd_purge                    = false
-  $dspam_home                           = '${amavisd_myhome}/dspam'
-  $dspam_purge_signatures               = 14
-  $dspam_purge_neutral                  = 90
-  $dspam_purge_unused                   = 90
-  $dspam_purge_hapaxes                  = 30
-  $dspam_purge_hits1S                   = 15    
-  $dspam_purge_hits1I                   = 15
-  $dspam_db_name                        = 'dspam'
-  $dspam_db_user                        = 'dspam'
-  $dspam_db_password                    = undef
-    
   ## Roundcube
   $roundcube_home_dir                   = '/usr/share/roundcube'
   $roundcube_conf_file                  = '${roundcube_home_dir}/main.inc.php'
@@ -224,14 +262,22 @@ class mailserver::params {
   $roundcube_login_lc                   = 2
   $roundcube_session_lifetime           = 10
   $roundcube_display_version            = false
-  $roundcube_plugins_enabled            = ['
-    autologon
-    password
-    autoresponder
-    calender
-    managesieve
-    zipdownload
-    attachment_reminder
-    archiver_abstractor
-  ']
+  $roundcube_plugins_enabled            = [
+    'autologon',
+    'password',
+    'autoresponder',
+    'calender',
+    'managesieve',
+    'zipdownload',
+    'attachment_reminder',
+    'archiver_abstractor',
+  ]
+  
+  ### Package
+  $mailserver_packages = $::operatingsystem ? {
+    /(?i-mx:debian|ubuntu)/                                                    => 'postfix postfix-mysql spamassassin dovecot-common dovecot-core dovecot-imapd dovecot-managesieved dovecot-mysql dovecot-pop3d dovecot-sieve dovecot-antispam',
+    /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse|amazon|gentoo)/ => 'postfix postfix-mysql spamassassin dovecot-common dovecot-core dovecot-imapd dovecot-managesieved dovecot-mysql dovecot-pop3d dovecot-sieve dovecot-antispam',
+  }
+  
+  ##$mailserver_packages_whith_amavis
 }
