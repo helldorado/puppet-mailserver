@@ -14,9 +14,8 @@
 #
 # This class file is not called directly
 class mailserver::config(
-  $worker_processes       = $mailserver::params::nx_worker_processes,
-  $worker_connections     = $mailserver::params::nx_worker_connections,
-  $confd_purge            = $mailserver::params::nx_confd_purge,
+  $postfix_processes       = $mailserver::params::postfix_worker_processes,
+  $postfix_connections     = $mailserver::params::nx_worker_connections,
   $server_tokens          = $mailserver::params::nx_server_tokens,
   $proxy_set_header       = $mailserver::params::nx_proxy_set_header,
   $proxy_cache_path       = $mailserver::params::nx_proxy_cache_path,

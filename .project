@@ -3,6 +3,8 @@
 	<name>puppet-mailserver</name>
 	<comment></comment>
 	<projects>
+		<project>apache</project>
+		<project>stdlib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
