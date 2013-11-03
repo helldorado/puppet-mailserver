@@ -31,7 +31,6 @@
 
 class mailserver (
   $postfix_conf_dir                       = $mailserver::params::postfix_conf_dir,
-  $postfix_confd_purge                    = $mailserver::params::postfix_confd_purge,
   $postfix_smtpd_tls                      = $mailserver::params::postfix_smtpd_tls,
   $postfix_smtpd_sasl_auth                = $mailserver::params::postfix_smtpd_sasl_auth,
   $postfix_submission                     = $mailserver::params::postfix_submission,
@@ -68,7 +67,6 @@ class mailserver (
   $pfa_alias_control_admin                = $mailserver::params::postfix_admin_alias_control_admin,
   $pfa_default_aliases                    = $mailserver::params::postfix_admin_default_aliases,
   $dovecot_conf_dir                       = $mailserver::params::dovecot_conf_dir,
-  $dovecot_confd_purge                    = $mailserver::params::dovecot_confd_purge,
   $dovecot_base_dir                       = $mailserver::params::dovecot_base_dir,
   $dovecot_quota                          = $mailserver::params::dovecot_quota,
   $dovecot_quota_warning                  = $mailserver::params::dovecot_quota_warning,

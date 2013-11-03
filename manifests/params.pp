@@ -16,7 +16,6 @@
 class mailserver::params {
   ## Postfix 
   $postfix_conf_dir                                 = '/etc/postfix'
-  $postfix_confd_purge                              = false
   $postfix_smtpd_tls                                = true
   $postfix_smtpd_sasl_auth                          = true
   $postfix_submission                               = true
@@ -154,7 +153,6 @@ class mailserver::params {
 
   ## Dovecot
   $dovecot_conf_dir                       = '/etc/dovecot'
-  $dovecot_confd_purge                    = false
   $dovecot_base_dir                       = '/var/run/dovecot'
   $dovecot_quota                          = true
   $dovecot_quota_warning                  = '85%'
@@ -191,7 +189,6 @@ class mailserver::params {
   
   ## Amavisd
   $amavisd_conf_dir                       = '/etc/amavis'
-  $amavisd_confd_purge                    = false
   $amavisd_uid                            = 1002
   $amavisd_gid                            = 1002
   $amavisd_max_servers                    = 2
@@ -221,7 +218,6 @@ class mailserver::params {
    
   ## Spamassassin
   $spamassassin_conf_dir                             = '/etc/spamassassin'
-  $spamassassin_confd_purge                          = false
   $spamassassin_required_score                       = '4.3'
   $spamassassin_rewrite_header                       = 'Subject *****SPAM*****'
   $spamassassin_report_safe                          = 0
@@ -240,7 +236,6 @@ class mailserver::params {
   
   ## Clamav
   $clamav_conf_dir                       = '/etc/clamav'
-  $clamav_confd_purge                    = false
   
   ## Roundcube
   $roundcube_home_dir                   = '/usr/share/roundcube'
@@ -275,7 +270,7 @@ class mailserver::params {
   ]
   
   ### Packages
-  $mailserver_with_amavis     = true
+  $mailserver_with_amavis      = true
   $mailserver_packages_ensure  = 'present'
   
   $mailserver_packages = $::operatingsystem ? {
@@ -283,7 +278,7 @@ class mailserver::params {
     /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse|amazon|gentoo)/ => [ "postfix", "postfix-mysql", "amvisd", "clamav", "spamassassin", "dovecot-common", "dovecot-core", "dovecot-imapd", "dovecot-managesieved", "dovecot-mysql", "dovecot-pop3d", "dovecot-sieve", "dovecot-antispam" ],
   }
   
- if mailserver_with_amavis {
+ if mailserver_with_amavis == true {
      $mailserver_packages_list = ["$mailserver_packages", "amvisd", "clamav"]
  }
   
