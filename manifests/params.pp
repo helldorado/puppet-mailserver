@@ -145,10 +145,11 @@ class mailserver::params {
     /(?i-mx:linux)/  => '/var/spool/postfix/pid/master.pid',
   }
   
-  $postfix_configtest_enable = false
-  $postfix_service_restart = $::operatingsystem ? {
-    /(?i-mx:debian|ubuntu)/                                                    => '/etc/init.d/postfix check && /etc/init.d/postfix restart',
-    /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse|amazon|gentoo)/ => '/sbin/service postfix check && /sbin/service postfix restart',
+  $mailserver_temp_dir          = '/tmp/puppet-mailserver/'
+  $mailserver_configtest_enable = true
+  $mailserver_service_restart = $::operatingsystem ? {
+    /(?i-mx:debian|ubuntu)/                                                    => [ 'service postfix check && service postfix restart', 'service dovecot check && service dovecot restart', 'service amavisd check && service amavisd restart', 'service clamav check && service clamav restart', 'service spamassassin check && service spamassain restart' ],
+    /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse|amazon|gentoo)/ => [ 'service postfix check && service postfix restart', 'service dovecot check && service dovecot restart', 'service amavisd check && service amavisd restart', 'service clamav check && service clamav restart', 'service spamassassin check && service spamassain restart' ],
   }
 
   ## Dovecot
@@ -274,12 +275,12 @@ class mailserver::params {
   $mailserver_packages_ensure  = 'present'
   
   $mailserver_packages = $::operatingsystem ? {
-    /(?i-mx:debian|ubuntu)/                                                    => [ "postfix", "postfix-mysql", "spamassassin", "dovecot-common", "dovecot-core", "dovecot-imapd", "dovecot-managesieved", "dovecot-mysql", "dovecot-pop3d", "dovecot-sieve", "dovecot-antispam" ],
-    /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse|amazon|gentoo)/ => [ "postfix", "postfix-mysql", "amvisd", "clamav", "spamassassin", "dovecot-common", "dovecot-core", "dovecot-imapd", "dovecot-managesieved", "dovecot-mysql", "dovecot-pop3d", "dovecot-sieve", "dovecot-antispam" ],
+    /(?i-mx:debian|ubuntu)/                                                    => [ 'postfix', 'postfix-mysql', 'spamassassin', 'dovecot-common', 'dovecot-core', 'dovecot-imapd', 'dovecot-managesieved', 'dovecot-mysql', 'dovecot-pop3d', 'dovecot-sieve', 'dovecot-antispam' ],
+    /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse|amazon|gentoo)/ => [ 'postfix', 'postfix-mysql', 'spamassassin', 'dovecot-common', 'dovecot-core', 'dovecot-imapd', 'dovecot-managesieved', 'dovecot-mysql', 'dovecot-pop3d', 'dovecot-sieve', 'dovecot-antispam' ],
   }
   
  if mailserver_with_amavis == true {
-     $mailserver_packages_list = ["$mailserver_packages", "amvisd", "clamav"]
+     $mailserver_packages_list = [$mailserver_packages, 'amvisd', 'clamav']
  }
   
 }

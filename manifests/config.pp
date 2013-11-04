@@ -14,7 +14,6 @@
 #
 # This class file is not called directly
 class mailserver::config(
-  $postfix_confd_purge                    = $mailserver::params::postfix_confd_purge,
   $postfix_submission                     = $mailserver::params::postfix_submission,
   $postix_postcreen_rbl_check             = $mailserver::params::postix_postcreen_rbl_check,
   $postfix_headers_check                  = $mailserver::params::postfix_headers_check,
@@ -41,7 +40,6 @@ class mailserver::config(
   $pfa_alias_control                      = $mailserver::params::postfix_admin_alias_control,
   $pfa_alias_control_admin                = $mailserver::params::postfix_admin_alias_control_admin,
   $pfa_default_aliases                    = $mailserver::params::postfix_admin_default_aliases,
-  $dovecot_confd_purge                    = $mailserver::params::dovecot_confd_purge,
   $dovecot_quota                          = $mailserver::params::dovecot_quota,
   $dovecot_quota_warning                  = $mailserver::params::dovecot_quota_warning,
   $dovecot_quota_warning_message          = $mailserver::params::dovecot_quota_warning_message,
@@ -77,45 +75,65 @@ class mailserver::config(
     mode  => '0644',
   }
 
-  file { $mailserver::params::postfix_conf_dir:
+  file { $mailserver::params::mailserver_temp_dir:
     ensure => directory,
   }
   
-  file { $mailserver::params::dovecot_conf_dir:
+  file { "${mailserver::params::mailserver_temp_dir}/postfix":
     ensure => directory,
   }
-    
-  file { "$mailserver::params::dovecot_conf_dir/conf.d":
+  
+  file { "${mailserver::params::mailserver_temp_dir}/dovecot":
+    ensure => directory,
+  }
+  
+  file { "${mailserver::params::mailserver_temp_dir}/dovecot/conf.d":
+    ensure => directory,
+  }
+  
+  file { "${mailserver::params::mailserver_temp_dir}/spamassassin":
+    ensure => directory,
+  }
+  
+  file { "${mailserver::params::mailserver_temp_dir}/spamassassin/conf.d":
     ensure => directory,
   }
   
   if $mailserver_with_amavis == true {
-     file { $mailserver::params::amavisd_conf_dir:
-         ensure => directory,
-     }
+    file { "${mailserver::params::mailserver_temp_dir}/amavisd":
+      ensure => directory,
+    }
   
-     file { "$mailserver::params::amavisd_conf_dir/conf.d":
-         ensure => directory,
-     }
+    file { "${mailserver::params::mailserver_temp_dir}/amavisd/conf.d":
+      ensure => directory,
+    }
   
-     file { $mailserver::params::clamav_conf_dir:
-         ensure => directory,
-     }
+    file { "${mailserver::params::mailserver_temp_dir}/clamav":
+      ensure => directory,
+    }
   }
   
-  file { $mailserver::params::spamassassin_conf_dir:
-    ensure => directory,
-  }
-
-  file { "${mailserver::params::postfix_conf_dir}/main.cf":
+  file { "${mailserver::params::mailserver_temp_dir}/postfix/main.cf":
     ensure  => file,
     content => template('mailserver/postfix/main.cf.erb'),
   }
 
-  file { "${mailserver::params::nx_conf_dir}/conf.d/proxy.conf":
+  file { "${mailserver::params::mailserver_temp_dir}/postfix/master.cf":
     ensure  => file,
-    content => template('mailserver/conf.d/proxy.conf.erb'),
+    content => template('mailserver/postfix/master.cf.erb'),
   }
+  
+  file { "${mailserver::params::mailserver_temp_dir}/postfix/transport":
+    ensure  => file,
+    content => template('mailserver/postfix/transport.erb'),
+  }
+  
+  file { "${mailserver::params::mailserver_temp_dir}/postfix/master.cf":
+    ensure  => file,
+    content => template('mailserver/postfix/master.cf.erb'),
+  }
+  
+  
 
   file { "${mailserver::config::nx_temp_dir}/mailserver.d":
     ensure  => directory,
